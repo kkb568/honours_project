@@ -1,0 +1,221 @@
+header {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  width: 100%;
+  height: 70px;
+  background-color: #000080;
+  z-index: 3;
+}
+
+.subnav, .subnav1 {
+  float: right;
+  margin-top: 10px;
+}
+.subnav button, .subnav1 button {
+  cursor: pointer;
+  background-color: transparent;
+  color: #ffffff;
+  border: none;
+  padding: 10px;
+}
+
+.subnav-content, .subnav1-content {
+  opacity: 0;
+  background-color: #000080;
+}
+.subnav-content button, .subnav1-content button {
+  padding: 10px;
+  display: block;
+}
+.subnav-content button a, .subnav1-content button a {
+  color: #ffffff;
+  text-decoration: none;
+}
+.subnav-content button:hover, .subnav1-content button:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.subnav:hover .subnav-content, .subnav1:hover .subnav1-content {
+  opacity: 1;
+}
+
+.section1 {
+  position: absolute;
+  left: 0%;
+  top: 10%;
+  width: 100%;
+  height: 90%;
+}
+.section1 img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.intro {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(205, 127, 50, 0.4);
+  z-index: 2;
+  display: table;
+}
+.intro h1, .intro p {
+  color: #ffffff;
+  text-align: center;
+}
+.intro h1 {
+  font-size: 50px;
+  font-weight: bolder;
+}
+.intro p {
+  font-size: x-large;
+  font-weight: bold;
+}
+
+.intro-content {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.section2 {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: 110%;
+}
+.section2 .row {
+  width: 100%;
+  height: 100%;
+}
+.section2 .row img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: 40%;
+     object-position: 40%;
+}
+.section2 .row h2 {
+  text-align: center;
+}
+.section2 .row p {
+  margin: 0 20px 0 10px;
+  text-align: justify;
+}
+.section2 .row .col:last-child {
+  display: table;
+}
+
+#col2-content, #col3-content {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.section3 {
+  position: absolute;
+  top: 210%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(205, 127, 50);
+}
+.section3 h2 {
+  text-align: center;
+  font-weight: bold;
+  margin-top: 3em;
+  text-transform: uppercase;
+  color: #ffffff;
+}
+
+#features {
+  text-align: center;
+  margin-top: 5em;
+  color: #ffffff;
+  position: relative;
+  height: 25em;
+}
+#features i {
+  font-size: 10em;
+}
+#features p {
+  margin: 8% 0% 0 0%;
+  text-align: justify;
+}
+
+.carousel-inner {
+  height: 24.5em;
+}
+
+.carousel-caption {
+  position: absolute;
+  top: 7.5em;
+}
+
+.section4 {
+  position: absolute;
+  top: 310%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.section4 .row {
+  width: 100%;
+  height: 100%;
+}
+.section4 .row img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: 30%;
+     object-position: 30%;
+}
+.section4 .row .col:last-child {
+  display: table;
+  margin-left: 3em;
+}
+.section4 .row h2 {
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-bottom: 1em;
+}
+.section4 .row button {
+  background-color: #000080;
+  border: none;
+  border-radius: 10px;
+  padding: 15px;
+  width: 50%;
+  font-weight: 600;
+  transition: 0.5s ease;
+}
+.section4 .row button a {
+  text-decoration: none;
+  color: #ffffff;
+}
+.section4 .row button:hover {
+  background-color: #ffffff;
+  border: 3px solid #000080;
+}
+.section4 .row button:hover a {
+  color: #000080;
+}
+
+footer {
+  position: absolute;
+  top: 410%;
+  left: 0;
+  width: 100%;
+  height: 120px;
+  background-color: #000080;
+  color: #ffffff;
+}
+footer p {
+  margin: 60px 0% 0% 3%;
+}/*# sourceMappingURL=index.css.map */

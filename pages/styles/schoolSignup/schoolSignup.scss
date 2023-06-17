@@ -1,0 +1,60 @@
+$navy-blue: #000080;
+
+.row {
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100vh;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    h2, p {
+        text-align: center;
+    }
+
+    h2 {
+        text-transform: uppercase;
+        font-weight: bold;
+    }
+
+    form {
+        margin: 1em 0 1em 0;
+        padding: 10px;
+
+        input, select {
+            width: 90%;
+            font-size: large;
+        }
+
+        input {
+            outline: none;
+        }
+
+        button {
+            background-color: $navy-blue;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 15px;
+            min-width: 120px;
+            display: table;
+            margin: auto;
+            transition: 0.3s ease;
+        }
+
+        button:hover {
+            background-color: white;
+            color: $navy-blue;
+            border: 3px solid $navy-blue;
+        }
+    }
+}
+
+.col:last-child {
+    margin-top: 100px;
+}
