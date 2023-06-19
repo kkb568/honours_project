@@ -28,11 +28,14 @@ $navy-blue: #000080;
 
         input, select {
             width: 90%;
-            font-size: large;
         }
 
         input {
             outline: none;
+        }
+
+        select {
+            cursor: pointer;
         }
 
         button {

@@ -24,10 +24,12 @@
 }
 .row form input, .row form select {
   width: 90%;
-  font-size: large;
 }
 .row form input {
   outline: none;
+}
+.row form select {
+  cursor: pointer;
 }
 .row form button {
   background-color: #000080;

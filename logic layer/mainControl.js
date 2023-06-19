@@ -21,3 +21,19 @@ exports.schoolLogin = async(req, res) => {
         console.log(error.message);
     }
 }
+
+exports.ngoSignup = async(req, res) => {
+    try {
+        res.redirect('/ngoSignup')
+    } catch (error) {
+        console.log(error,message);
+    }
+}
+
+exports.ngoLogin = async(req, res) => {
+    try {
+        res.redirect('/ngoLogin')
+    } catch (error) {
+        console.log(error.message);
+    }
+}
