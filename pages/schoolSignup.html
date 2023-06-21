@@ -18,15 +18,15 @@
         <div class="col">
             <h2>Register your school here</h2>
             <p>Fill in the form below to create your account.</p>
-            <form>
+            <form action="/newSchoolPage" method="post">
                 <label for="school">Name of secondary school:</label><br>
                 <select id="school" name="school" required></select><br><br>
                 <label for="email">Email address:</label><br>
                 <input type="email" name="email" required><br><br>
                 <label for="password">Password:</label><br>
-                <input type="password" name="password" required><br><br>
+                <input type="password" name="password" minlength="8" required><br><br>
                 <label for="reenterPassword">Re-enter password</label><br>
-                <input type="password" name="reenterPassword" required><br><br>
+                <input type="password" name="reenterPassword" minlength="8" required><br><br>
                 <button>Signup</button>
             </form>
             <p>Already have an account? Click <a href="schoolLogin">here</a></p>

@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .then((json) => {
             let output = '<option>Select school</option>';
             for (var i = 0; i < json.length; i++) {
-                output += `<option value=${json[i].Name}>${json[i].Name}</option>`
+                output += `<option value="${json[i].Name},${json[i].PROVINCE}">${json[i].Name}</option>`
             }
             schoolList.innerHTML = output;
         })
