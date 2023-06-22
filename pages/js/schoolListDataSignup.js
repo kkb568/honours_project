@@ -12,3 +12,14 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .catch(error => console.log('error', error));
 });
+
+function togglePassword(inputId) {
+    const password = document.getElementById(inputId);
+    if (password.getAttribute("type") === "password") {
+        password.setAttribute("type", "text");
+        document.getElementById("eye").className = "fa fa-eye-slash";
+    } else {
+        password.setAttribute("type", "password");
+        document.getElementById("eye").className = "fa fa-eye";
+    }
+}

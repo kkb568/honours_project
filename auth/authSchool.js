@@ -8,3 +8,8 @@ exports.createCookie = async(req, res, next) => {
     res.cookie("jwt", accessToken, {httpOnly: true, secure: true});
     next();
 }
+
+exports.clearCookie = async(req, res, next) => {
+    res.clearCookie("jwt").status(200);
+    next();
+}

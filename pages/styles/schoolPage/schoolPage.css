@@ -1,0 +1,145 @@
+.row {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  width: 100%;
+  height: 100%;
+}
+
+.col-sm-2 {
+  background-color: #000080;
+}
+
+.button, #signOut {
+  background-color: transparent;
+  color: white;
+  border: none;
+  padding: 10px;
+  margin: 0 0 20px 12px;
+  width: 100%;
+  font-weight: bold;
+  transition: 0.3s ease;
+}
+.button a, #signOut a {
+  text-decoration: none;
+  color: white;
+}
+
+.button:first-child {
+  margin-top: 70px;
+}
+
+.button:hover, #signOut:hover {
+  text-decoration: underline;
+}
+
+.active {
+  background-color: white;
+  color: #000080;
+}
+
+.col-sm-10 {
+  position: relative;
+}
+.col-sm-10 h1 {
+  margin-top: 10px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.section {
+  position: absolute;
+  top: 85px;
+  left: 20px;
+  opacity: 0;
+  z-index: -1;
+  transition: 0.3s ease;
+  width: 90%;
+}
+
+.selected {
+  opacity: 1;
+  z-index: 2;
+}
+
+.grid_container {
+  display: grid;
+  grid-template-columns: 5fr 1fr;
+  gap: 10px;
+  font-size: x-large;
+  margin-top: 1em;
+}
+.grid_container :nth-child(odd) {
+  font-weight: bold;
+}
+
+.col-sm-10 .section:first-of-type a {
+  text-decoration: underline;
+  color: #000080;
+  cursor: pointer;
+  display: table;
+  margin: 0 auto;
+}
+.col-sm-10 :nth-child(5) p {
+  text-align: center;
+  font-size: x-large;
+}
+.col-sm-10 :nth-child(5) form {
+  width: 100%;
+  margin-left: 2%;
+}
+.col-sm-10 :nth-child(5) button {
+  display: table;
+  margin: 0 auto;
+  background-color: #000080;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 10px;
+  width: 150px;
+  font-weight: 600;
+  transition: 0.3s ease;
+}
+.col-sm-10 :nth-child(5) button:hover {
+  background-color: white;
+  color: #000080;
+  border: 3px solid #000080;
+}
+.col-sm-10 :last-child p, .col-sm-10 :last-child input {
+  width: 100%;
+}
+.col-sm-10 :last-child p {
+  text-align: center;
+  font-size: x-large;
+}
+.col-sm-10 :last-child input {
+  outline: none;
+  font-size: large;
+}
+.col-sm-10 :last-child button {
+  display: table;
+  margin: 0 auto;
+  background-color: #000080;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 10px;
+  width: 150px;
+  font-weight: 600;
+  transition: 0.3s ease;
+}
+.col-sm-10 :last-child button:hover {
+  background-color: white;
+  color: #000080;
+  border: 3px solid #000080;
+}
+
+.grid_container1 {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 20px;
+}
+.grid_container1 input {
+  width: 90%;
+  outline: none;
+}/*# sourceMappingURL=schoolPage.css.map */

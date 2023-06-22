@@ -49,7 +49,8 @@ exports.ngoLogin = async(req, res) => {
     }
 }
 
-exports.newSchoolSignup = async(req, res) => {
+// Method for signing-in a new school.
+exports.newSchoolSignup = async(req, res, next) => {
     try {
         const schoolValue = req.body.school;
         // Separate the school name and the province name.
@@ -78,11 +79,38 @@ exports.newSchoolSignup = async(req, res) => {
                 const hashedPassword = bcrypt.hashSync(req.body.password, saltRounds);
                 // Add school details to the database.
                 db.addSchool(result1[0].id, schoolName, encryptedEmail, hashedPassword);
-                // Render the school's page.
-                res.render('schoolPage', {
-                    'schoolName': schoolName
-                });
+                next();
             })
+        });
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+// Method for login-in an existing school.
+exports.loginSchool = async(req, res) => {
+    try {
+        // Check if school exist in the database.
+        db.viewSchool(req.body.school)
+        .then((record) => {
+            // If there isn't, show a warning to the user.
+            if (record.length == 0) {
+                console.log("User does not exists");  // TO BE CHANGED LATER.
+                return;
+            }
+            // Compare the inputted password and the stored password from the database.
+            bcrypt.compare(req.body.password, record[0].password, function(err, result) {
+                // If the password match, render the school page.
+                if(result) {
+                    res.render('schoolPage', {
+                        'schoolName': req.body.school
+                    })
+                }
+                else {
+                    console.log("Password do not match.");
+                    return;
+                }
+            });
         });
     } catch (error) {
         console.log(error.message);

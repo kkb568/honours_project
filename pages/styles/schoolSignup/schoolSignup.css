@@ -47,6 +47,10 @@
   color: #000080;
   border: 3px solid #000080;
 }
+.row form i {
+  margin-left: -30px;
+  cursor: pointer;
+}
 
 .col:last-child {
   margin-top: 100px;
