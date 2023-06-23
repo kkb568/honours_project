@@ -80,6 +80,20 @@
   display: table;
   margin: 0 auto;
 }
+.col-sm-10 :nth-child(4) button {
+  color: #000080;
+  background-color: transparent;
+  border: 3px solid #000080;
+  padding: 10px;
+  border-radius: 10px;
+  width: 100px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.col-sm-10 :nth-child(4) button i {
+  float: left;
+  margin-top: 5px;
+}
 .col-sm-10 :nth-child(5) p {
   text-align: center;
   font-size: x-large;
@@ -105,18 +119,18 @@
   color: #000080;
   border: 3px solid #000080;
 }
-.col-sm-10 :last-child p, .col-sm-10 :last-child input {
+.col-sm-10 :nth-child(6) p, .col-sm-10 :nth-child(6) input {
   width: 100%;
 }
-.col-sm-10 :last-child p {
+.col-sm-10 :nth-child(6) p {
   text-align: center;
   font-size: x-large;
 }
-.col-sm-10 :last-child input {
+.col-sm-10 :nth-child(6) input {
   outline: none;
   font-size: large;
 }
-.col-sm-10 :last-child button {
+.col-sm-10 :nth-child(6) button {
   display: table;
   margin: 0 auto;
   background-color: #000080;
@@ -128,10 +142,25 @@
   font-weight: 600;
   transition: 0.3s ease;
 }
-.col-sm-10 :last-child button:hover {
+.col-sm-10 :nth-child(6) button:hover {
   background-color: white;
   color: #000080;
   border: 3px solid #000080;
+}
+
+.helpers {
+  display: grid;
+  grid-template-columns: 2fr 4fr;
+  gap: 10px;
+}
+.helpers input {
+  outline: none;
+  padding: 10px;
+  width: 90%;
+}
+
+table th {
+  font-weight: bold;
 }
 
 .grid_container1 {
@@ -139,7 +168,30 @@
   grid-template-columns: auto auto;
   gap: 20px;
 }
-.grid_container1 input {
+.grid_container1 input, .grid_container1 .grid6 input, .grid_container1 select {
   width: 90%;
   outline: none;
+}
+.grid_container1 select {
+  cursor: pointer;
+}
+
+.modal-dialog {
+  margin-top: 10em;
+}
+
+.modal-footer button {
+  background-color: #000080;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 10px;
+  width: 50px;
+  font-weight: 600;
+  transition: 0.3s ease;
+}
+.modal-footer button:hover {
+  background-color: white;
+  color: #000080;
+  border: 3px solid #000080;
 }/*# sourceMappingURL=schoolPage.css.map */

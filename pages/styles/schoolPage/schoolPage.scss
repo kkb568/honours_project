@@ -89,6 +89,24 @@ $navy-blue: #000080;
         }
     }
 
+    :nth-child(4) {
+        button {
+            color: $navy-blue;
+            background-color: transparent;
+            border: 3px solid $navy-blue;
+            padding: 10px;
+            border-radius: 10px;
+            width: 100px;
+            font-weight: 600;
+            text-transform: uppercase;
+
+            i {
+                float: left;
+                margin-top: 5px;
+            }
+        }
+    }
+
     :nth-child(5) {
         p {
             text-align: center;
@@ -120,7 +138,7 @@ $navy-blue: #000080;
         }
     }
 
-    :last-child {
+    :nth-child(6) {
         p, input {
             width: 100%;
         }
@@ -156,13 +174,58 @@ $navy-blue: #000080;
     }
 }
 
+.helpers {
+    display: grid;
+    grid-template-columns: 2fr 4fr;
+    gap: 10px;
+
+    input {
+        outline: none;
+        padding: 10px;
+        width: 90%;
+    }
+}
+
+table {
+    th {
+        font-weight: bold;
+    }
+}
+
 .grid_container1 {
     display: grid;
     grid-template-columns: auto auto;
     gap: 20px;
 
-    input {
+    input, .grid6 input, select {
         width: 90%;
         outline: none;
+    }
+
+    select {
+        cursor: pointer;
+    }
+}
+
+.modal-dialog {
+    margin-top: 10em;
+}
+
+.modal-footer {
+    button {
+        background-color: $navy-blue;
+        color: white;
+        border: none;
+        padding: 10px;
+        border-radius: 10px;
+        width: 50px;
+        font-weight: 600;
+        transition: 0.3s ease;
+    }
+
+    button:hover {
+        background-color: white;
+        color: $navy-blue;
+        border: 3px solid $navy-blue;
     }
 }
