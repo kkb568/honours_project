@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 exports.createCookie = async(req, res, next) => {
-    let idToken = req.body.school;
+    let idToken = req.params.school;
     // Create access token.
     let accessToken = jwt.sign(idToken, process.env.ACCESS_TOKEN);
     // Create cookie using the token.

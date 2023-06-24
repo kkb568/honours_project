@@ -24,11 +24,11 @@
             <div class="section selected">
                 <div class="grid_container">
                     <p>Email address:</p>
-                    <p>ffff@gmail.com</p>
+                    <p>{{schoolEmail}}</p>
                     <p>Number of available students:</p>
-                    <p>10</p>
+                    <p>{{available}}</p>
                     <p>Number of not available students:</p>
-                    <p>1</p>
+                    <p>{{notAvailable}}</p>
                 </div><br>
                 <a data-bs-toggle="modal" data-bs-target="#deleteSchoolAccountModal">Delete my account</a>
             </div>
@@ -51,7 +51,19 @@
                             <th>Contact details</th>
                             <th>Status</th>
                         </thead>
-                        <tbody></tbody>
+                        <tbody>
+                            {{#students}}
+                            <tr>
+                                <td>{{name}}</td>
+                                <td>{{dateOfBirth}}</td>
+                                <td>{{startDate}}</td>
+                                <td>{{endDate}}</td>
+                                <td>{{parentName}}</td>
+                                <td>{{parentContact}}</td>
+                                <td>{{status}}</td>
+                            </tr>
+                            {{/students}}
+                        </tbody>
                     </table>
                 </div>
             </div>

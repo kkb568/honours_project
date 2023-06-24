@@ -88,7 +88,7 @@ exports.newSchoolSignup = async(req, res, next) => {
 }
 
 // Method for login-in an existing school.
-exports.loginSchool = async(req, res) => {
+exports.loginSchool = async(req, res, next) => {
     try {
         // Check if school exist in the database.
         db.viewSchool(req.body.school)
@@ -100,16 +100,49 @@ exports.loginSchool = async(req, res) => {
             }
             // Compare the inputted password and the stored password from the database.
             bcrypt.compare(req.body.password, record[0].password, function(err, result) {
-                // If the password match, render the school page.
+                // If the password match, go to the next process.
                 if(result) {
-                    res.render('schoolPage', {
-                        'schoolName': req.body.school
-                    })
+                    next();
                 }
                 else {
                     console.log("Password do not match.");
                     return;
                 }
+            });
+        });
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+// Method for taking user to school page after confirming the email.
+exports.loginSchoolConfirm = async(req, res, next) => {
+    // Decypt the school and email details from the parameters.
+    const schoolName = encryption.decrypt(req.params.school, process.env.ENCRYPTION_KEY).toString();
+    const schoolEmail = encryption.decrypt(req.params.email, process.env.ENCRYPTION_KEY).toString();
+    try {
+        // Get the school id.
+        db.getSchoolId(schoolName)
+        .then((result) => {
+            // Count the number of available students.
+            db.countStudentBySchoolAndStatus(result[0].id, "Available")
+            .then((result1) => {
+                // Count the number of not available students.
+                db.countStudentBySchoolAndStatus(result[0].id, "Not available")
+                .then((result2) => {
+                    // Get all students of the specified school.
+                    db.viewStudentsBySchool(result[0].id)
+                    .then((entry) => {
+                        // Render the school's page.
+                        res.render('schoolPage', {
+                            'schoolName': schoolName,
+                            'schoolEmail': schoolEmail,
+                            'available': result1[0].studentCount,
+                            'notAvailable': result2[0].studentCount,
+                            'students': entry
+                        });
+                    });
+                });
             });
         });
     } catch (error) {
