@@ -1,4 +1,4 @@
-.row {
+#schoolPageContent {
   position: absolute;
   top: 0%;
   left: 0%;
@@ -80,20 +80,6 @@
   display: table;
   margin: 0 auto;
 }
-.col-sm-10 :nth-child(4) button {
-  color: #000080;
-  background-color: transparent;
-  border: 3px solid #000080;
-  padding: 10px;
-  border-radius: 10px;
-  width: 100px;
-  font-weight: 600;
-  text-transform: uppercase;
-}
-.col-sm-10 :nth-child(4) button i {
-  float: left;
-  margin-top: 5px;
-}
 .col-sm-10 :nth-child(5) p {
   text-align: center;
   font-size: x-large;
@@ -148,19 +134,14 @@
   border: 3px solid #000080;
 }
 
-.helpers {
-  display: grid;
-  grid-template-columns: 2fr 4fr;
-  gap: 10px;
+table {
+  margin-top: 10px;
 }
-.helpers input {
-  outline: none;
-  padding: 10px;
-  width: 90%;
-}
-
 table th {
   font-weight: bold;
+}
+table th i {
+  cursor: pointer;
 }
 
 .grid_container1 {
@@ -189,6 +170,13 @@ table th {
   width: 50px;
   font-weight: 600;
   transition: 0.3s ease;
+}
+.modal-footer button a {
+  color: white;
+  text-decoration: none;
+}
+.modal-footer button a:hover {
+  color: #000080;
 }
 .modal-footer button:hover {
   background-color: white;

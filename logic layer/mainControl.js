@@ -2,6 +2,7 @@ const dataConnector = require('../data layer/dataConnectSchools');
 const db = new dataConnector();
 const bcrypt = require('bcrypt');
 const encryption = require('node-encryption');
+const moment = require('moment');
 const saltRounds = 10;
 
 // Get the homepage.
@@ -116,13 +117,12 @@ exports.loginSchool = async(req, res, next) => {
 }
 
 // Method for taking user to school page after confirming the email.
-exports.loginSchoolConfirm = async(req, res, next) => {
-    // Decypt the school and email details from the parameters.
-    const schoolName = encryption.decrypt(req.params.school, process.env.ENCRYPTION_KEY).toString();
+exports.loginSchoolConfirm = async(req, res) => {
+    // Decypt the email details from the parameters.
     const schoolEmail = encryption.decrypt(req.params.email, process.env.ENCRYPTION_KEY).toString();
     try {
         // Get the school id.
-        db.getSchoolId(schoolName)
+        db.getSchoolId(req.params.school)
         .then((result) => {
             // Count the number of available students.
             db.countStudentBySchoolAndStatus(result[0].id, "Available")
@@ -135,7 +135,7 @@ exports.loginSchoolConfirm = async(req, res, next) => {
                     .then((entry) => {
                         // Render the school's page.
                         res.render('schoolPage', {
-                            'schoolName': schoolName,
+                            'schoolName': req.params.school,
                             'schoolEmail': schoolEmail,
                             'available': result1[0].studentCount,
                             'notAvailable': result2[0].studentCount,
@@ -144,6 +144,69 @@ exports.loginSchoolConfirm = async(req, res, next) => {
                     });
                 });
             });
+        });
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+// Method for adding an new student from the 'Add student' form.
+exports.addNewStudent = async(req, res) => {
+    try {
+        // Get the school's id.
+        db.getSchoolId(req.params.school)
+        .then((result) => {
+            // Add the student to the database.
+            db.addStudentToSchool(
+                result[0].id,
+                req.body.name,
+                req.body.gender,
+                moment(req.body.dateOfBirth, "YYYY-MM-DD").format("DD/MM/YYYY"),
+                moment(req.body.startDate, "YYYY-MM-DD").format("DD/MM/YYYY"),
+                moment(req.body.endDate, "YYYY-MM-DD").format("DD/MM/YYYY"),
+                req.body.parent,
+                req.body.contact
+            );
+            db.viewSchool(req.params.school)
+            .then((result1) => {
+                // Get the school's email address.
+                const schoolEmail = encryption.decrypt(result1[0].email, process.env.ENCRYPTION_KEY).toString();
+                // Count the number of available students.
+                db.countStudentBySchoolAndStatus(result[0].id, "Available")
+                .then((result2) => {
+                    // Count the number of not available students.
+                    db.countStudentBySchoolAndStatus(result[0].id, "Not available")
+                    .then((result3) => {
+                        // Get all students of the specified school.
+                        db.viewStudentsBySchool(result[0].id)
+                        .then((entry) => {
+                            // Render the school's page.
+                            res.render('schoolPage', {
+                                'schoolName': req.params.school,
+                                'schoolEmail': schoolEmail,
+                                'available': result2[0].studentCount,
+                                'notAvailable': result3[0].studentCount,
+                                'students': entry
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+exports.deleteSchoolAccount = async(req, res, next) => {
+    try {
+        // Get school id.
+        db.getSchoolId(req.params.school)
+        .then((result) => {
+            // Delete students records for the school and the school's record itself from database.
+            db.deleteAllStudents(result[0].id);
+            db.deleteSchool(result[0].id);
+            next();
         });
     } catch (error) {
         console.log(error.message);

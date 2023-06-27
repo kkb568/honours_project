@@ -4,7 +4,8 @@ const encryption = require('node-encryption');
 
 exports.schoolLoginConfirmPage = async(req, res) => {
     // Create verification token.
-    const token = jwt.sign({data: req.body.school}, process.env.SCHOOL_CONFIRM_TOKEN, {expiresIn: '10m'});
+    // const token = jwt.sign({data: req.body.school}, process.env.SCHOOL_CONFIRM_TOKEN, {expiresIn: '10m'});
+    const token = jwt.sign({data: req.body.school}, process.env.SCHOOL_CONFIRM_TOKEN); // TEMPORAL
     try {
         // Create email transporter.
         const transporter = nodemailer.createTransport({
@@ -34,10 +35,9 @@ exports.schoolLoginConfirmPage = async(req, res) => {
         console.log(console.error);
     }
 
-    const encryptedSchool = encryption.encrypt(req.body.school, process.env.ENCRYPTION_KEY).toString();
     const encryptedEmail = encryption.encrypt(req.body.email, process.env.ENCRYPTION_KEY).toString();
     res.render('schoolLoginConfirm', {
-        'school': encryptedSchool,
+        'school': req.body.school,
         'email': encryptedEmail
     })
 }

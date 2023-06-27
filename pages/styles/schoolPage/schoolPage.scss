@@ -1,6 +1,6 @@
 $navy-blue: #000080;
 
-.row {
+#schoolPageContent{
     position: absolute;
     top: 0%;
     left: 0%;
@@ -89,24 +89,6 @@ $navy-blue: #000080;
         }
     }
 
-    :nth-child(4) {
-        button {
-            color: $navy-blue;
-            background-color: transparent;
-            border: 3px solid $navy-blue;
-            padding: 10px;
-            border-radius: 10px;
-            width: 100px;
-            font-weight: 600;
-            text-transform: uppercase;
-
-            i {
-                float: left;
-                margin-top: 5px;
-            }
-        }
-    }
-
     :nth-child(5) {
         p {
             text-align: center;
@@ -174,21 +156,15 @@ $navy-blue: #000080;
     }
 }
 
-.helpers {
-    display: grid;
-    grid-template-columns: 2fr 4fr;
-    gap: 10px;
-
-    input {
-        outline: none;
-        padding: 10px;
-        width: 90%;
-    }
-}
-
 table {
+    margin-top: 10px;
+
     th {
         font-weight: bold;
+
+        i {
+            cursor: pointer;
+        }
     }
 }
 
@@ -221,6 +197,15 @@ table {
         width: 50px;
         font-weight: 600;
         transition: 0.3s ease;
+
+        a {
+            color: white;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: $navy-blue;
+        }
     }
 
     button:hover {

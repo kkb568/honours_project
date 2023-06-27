@@ -9,6 +9,22 @@ exports.createCookie = async(req, res, next) => {
     next();
 }
 
+exports.verifyCookie = async(req, res, next) => {
+    let cookies = req.rawHeaders[21].split("; ");
+    let jwtCookie =  cookies[1].split("=");
+    const accessToken = jwtCookie[1];
+    if (!accessToken) {
+        return res.redirect('/');
+    }
+    let payload;
+    try {
+        payload = jwt.sign(accessToken, process.env.ACCESS_TOKEN);
+        next();
+    } catch (error) {
+        res.clearCookie("jwt").redirect('/');
+    }
+}
+
 exports.clearCookie = async(req, res, next) => {
     res.clearCookie("jwt").status(200);
     next();

@@ -12,10 +12,12 @@ router.get("/ngoLogin", controller.ngoLogin);
 
 router.post("/newSchool", controller.newSchoolSignup, controller.schoolLogin);
 router.post("/confirmSchool", controller.loginSchool, confirmSchool.schoolLoginConfirmPage);
-router.post("/loginSchool/:school/:email", confirmSchool.verifyTokenCode, 
-    auth.createCookie, 
+router.post("/schoolPage/:school/:email", confirmSchool.verifyTokenCode, 
+    auth.createCookie,
     controller.loginSchoolConfirm);
+router.post("/addNewStudent/:school", auth.verifyCookie, controller.addNewStudent);
 
+router.get("/deleteAccount/:school", auth.clearCookie, controller.deleteSchoolAccount, controller.homepage);
 router.get("/signOut", auth.clearCookie, controller.homepage);
 
 module.exports = router;
