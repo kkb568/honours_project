@@ -78,3 +78,31 @@ function sortByStudentName() {
         }
     }
 }
+
+window.onload = function() {
+    const closeEditEmail = document.getElementById('closeEditEmail');
+    closeEditEmail.addEventListener('click', closeEmailEdit);
+}
+
+var done = false;
+// Function for changing the email address input from p tag to input tag.
+function editEmail(school) {
+    const email = document.getElementById("schoolEmail").children[0];
+    const editEmailButtons = document.getElementById('emailButtons');
+    if (!done) {
+        done = true;
+        email.outerHTML = `<form id="emailChangeForm" action="/changeEmail/${school}" method="post"><input type="email" name="email" value=${email.innerText}></form>`;
+        editEmailButtons.style.display = "table";
+    }
+}
+
+// Function for changing the email address input from input tag to p tag.
+function closeEmailEdit() {
+    const email = document.getElementById("schoolEmail").children[0].children[0];
+    const editEmailButtons = document.getElementById('emailButtons');
+    if (done) {
+        done = false;
+        email.outerHTML = `<p>${email.value}</p>`;
+        editEmailButtons.style.display = "none";
+    }
+}

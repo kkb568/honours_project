@@ -10,6 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="/styles/schoolPage/schoolPage.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="/js/showSections.js"></script>
     <title>{{schoolName}}</title>
 </head>
@@ -27,12 +28,19 @@
             <div class="section selected">
                 <div class="grid_container">
                     <p>Email address:</p>
-                    <p>{{schoolEmail}}</p>
+                    <div id="schoolEmail">
+                        <p>{{schoolEmail}}</p>
+                        <i id="editEmailIcon" class="material-icons" onclick="editEmail('{{schoolName}}')">edit</i>
+                    </div>
                     <p>Number of available students:</p>
                     <p>{{available}}</p>
                     <p>Number of not available students:</p>
                     <p>{{notAvailable}}</p>
                 </div><br>
+                <div id="emailButtons">
+                    <button type="submit" form="emailChangeForm">Edit</button>
+                    <button id="closeEditEmail">Close</button>
+                </div>
                 <a data-bs-toggle="modal" data-bs-target="#deleteSchoolAccountModal">Delete my account</a>
             </div>
             <div class="section">

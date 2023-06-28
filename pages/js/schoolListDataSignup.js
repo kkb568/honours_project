@@ -13,13 +13,13 @@ document.addEventListener('DOMContentLoaded', () => {
         .catch(error => console.log('error', error));
 });
 
-function togglePassword(inputId) {
+function togglePassword(inputId, eye) {
     const password = document.getElementById(inputId);
     if (password.getAttribute("type") === "password") {
         password.setAttribute("type", "text");
-        document.getElementById("eye").className = "fa fa-eye-slash";
+        document.getElementById(eye).className = "fa fa-eye-slash";
     } else {
         password.setAttribute("type", "password");
-        document.getElementById("eye").className = "fa fa-eye";
+        document.getElementById(eye).className = "fa fa-eye";
     }
 }

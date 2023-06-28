@@ -76,6 +76,44 @@ $navy-blue: #000080;
     :nth-child(odd) {
         font-weight: bold;
     }
+
+    :nth-child(2) {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        :nth-child(1) {
+            font-weight: 400;
+        }
+
+        i {
+            margin: 5px 0 0 5px;
+            cursor: pointer;
+        }
+    }
+}
+
+#emailButtons {
+    display: none;
+    margin: 0 auto;
+
+    button {
+        background-color: $navy-blue;
+        color: white;
+        border: none;
+        padding: 10px;
+        border-radius: 10px;
+        width: 150px;
+        font-weight: 600;
+        transition: 0.3s ease;
+        margin-bottom: 10px;
+    }
+
+    button:hover {
+        background-color: white;
+        color: $navy-blue;
+        border: 3px solid $navy-blue;
+    }
 }
 
 .col-sm-10 {
@@ -165,6 +203,10 @@ table {
         i {
             cursor: pointer;
         }
+    }
+    
+    :nth-child(2) tr {
+        cursor: pointer;
     }
 }
 

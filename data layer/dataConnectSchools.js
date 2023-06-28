@@ -137,6 +137,19 @@ class dataConnect {
         });
     }
 
+    changeSchoolEmail(newEmail, schoolName) {
+        return new Promise((resolve, reject) => {
+            this.db.serialize(() => {
+                this.db.run("UPDATE school SET email = ? WHERE name = ?", [newEmail, schoolName],
+                function(err) {
+                    if (err) {
+                        reject(err);
+                    }
+                });
+            });
+        });
+    }
+
     deleteAllStudents(schoolId) {
         return new Promise((resolve, reject) => {
             this.db.serialize(() => {

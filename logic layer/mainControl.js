@@ -198,6 +198,48 @@ exports.addNewStudent = async(req, res) => {
     }
 }
 
+// Method for changing the school's email address.
+exports.changeSchoolEmail = async(req, res) => {
+    try {
+        // Encrypt the changed email address.
+        const changedEmail = encryption.encrypt(req.body.email, process.env.ENCRYPTION_KEY);
+        // Update email using the school's name.
+        db.changeSchoolEmail(changedEmail, req.params.school);
+        // Get school id.
+        db.getSchoolId(req.params.school)
+        .then((result) => {
+            db.viewSchool(req.params.school)
+            .then((result1) => {
+                // Get the school's email address.
+                const schoolEmail = encryption.decrypt(result1[0].email, process.env.ENCRYPTION_KEY).toString();
+                // Count the number of available students.
+                db.countStudentBySchoolAndStatus(result[0].id, "Available")
+                .then((result2) => {
+                    // Count the number of not available students.
+                    db.countStudentBySchoolAndStatus(result[0].id, "Not available")
+                    .then((result3) => {
+                        // Get all students of the specified school.
+                        db.viewStudentsBySchool(result[0].id)
+                        .then((entry) => {
+                            // Render the school's page.
+                            res.render('schoolPage', {
+                                'schoolName': req.params.school,
+                                'schoolEmail': schoolEmail,
+                                'available': result2[0].studentCount,
+                                'notAvailable': result3[0].studentCount,
+                                'students': entry
+                            });
+                        });
+                    });
+                });
+            });
+        });
+
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
 exports.deleteSchoolAccount = async(req, res, next) => {
     try {
         // Get school id.
