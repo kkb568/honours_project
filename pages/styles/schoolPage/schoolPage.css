@@ -193,11 +193,23 @@ table :nth-child(2) tr {
   cursor: pointer;
 }
 
-.modal-dialog {
-  margin-top: 10em;
+.grid_container2 {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 20px;
+}
+.grid_container2 input, .grid_container2 select {
+  width: 90%;
+  outline: none;
+}
+.grid_container2 select {
+  cursor: pointer;
 }
 
-.modal-footer button {
+#deleteSchoolAccountModal .modal-dialog {
+  margin-top: 10em;
+}
+#deleteSchoolAccountModal .modal-footer button {
   background-color: #000080;
   color: white;
   border: none;
@@ -207,14 +219,40 @@ table :nth-child(2) tr {
   font-weight: 600;
   transition: 0.3s ease;
 }
-.modal-footer button a {
+#deleteSchoolAccountModal .modal-footer button a {
   color: white;
   text-decoration: none;
 }
-.modal-footer button a:hover {
+#deleteSchoolAccountModal .modal-footer button a:hover {
   color: #000080;
 }
-.modal-footer button:hover {
+#deleteSchoolAccountModal .modal-footer button:hover {
+  background-color: white;
+  color: #000080;
+  border: 3px solid #000080;
+}
+
+#editStudentFormModal .modal-dialog {
+  margin-top: 5em;
+}
+#editStudentFormModal .modal-footer button {
+  background-color: #000080;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 10px;
+  width: 100px;
+  font-weight: 600;
+  transition: 0.3s ease;
+}
+#editStudentFormModal .modal-footer button a {
+  color: white;
+  text-decoration: none;
+}
+#editStudentFormModal .modal-footer button a:hover {
+  color: #000080;
+}
+#editStudentFormModal .modal-footer button:hover {
   background-color: white;
   color: #000080;
   border: 3px solid #000080;

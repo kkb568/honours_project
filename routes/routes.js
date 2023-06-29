@@ -17,6 +17,7 @@ router.post("/schoolPage/:school/:email", confirmSchool.verifyTokenCode,
     controller.loginSchoolConfirm);
 router.post("/changeEmail/:school", auth.verifyCookie, controller.changeSchoolEmail);
 router.post("/addNewStudent/:school", auth.verifyCookie, controller.addNewStudent);
+router.post("/editStudent/:school", auth.verifyCookie, controller.editStudentDetails);
 
 router.get("/deleteAccount/:school", auth.clearCookie, controller.deleteSchoolAccount, controller.homepage);
 router.get("/signOut", auth.clearCookie, controller.homepage);

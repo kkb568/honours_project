@@ -80,8 +80,26 @@ function sortByStudentName() {
 }
 
 window.onload = function() {
-    const closeEditEmail = document.getElementById('closeEditEmail');
-    closeEditEmail.addEventListener('click', closeEmailEdit);
+    var table = $("#studentsDataTable").DataTable({
+        bLengthChange: false,
+        pageLength: 5,
+        dom:
+        "<'row'<'col-sm-12'f>>" +
+        "<'row'<'col-sm-12'tr>>" +
+        "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+    });
+    table.rows().every(function () {
+        this.node().addEventListener('click', () => {
+            document.getElementById('name').value = this.node().children[0].innerText;
+            document.getElementById('studentName').value = this.node().children[0].innerText;
+            document.getElementById('dateOfBirth').value = this.node().children[1].innerText;
+            document.getElementById('startDate').value = this.node().children[2].innerText;
+            document.getElementById('endDate').value = this.node().children[3].innerText;
+            document.getElementById('parentName').value = this.node().children[4].innerText;
+            document.getElementById('parentContact').value = this.node().children[5].innerText;
+            document.getElementById('status').value = this.node().children[6].innerText;
+        });
+    });
 }
 
 var done = false;

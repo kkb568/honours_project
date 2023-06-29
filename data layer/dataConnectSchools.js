@@ -150,6 +150,20 @@ class dataConnect {
         });
     }
 
+    changeStudentData(newName, dateOfBirth, startDate, endDate, parentName, parentContact, status, student) {
+        return new Promise((resolve, reject) => {
+            this.db.serialize(() => {
+                this.db.run("UPDATE student SET name = ?, dateOfBirth = ?, startDate = ?, endDate = ?, parentName = ?, parentContact = ?, status = ? WHERE name = ?",
+                [newName, dateOfBirth, startDate, endDate, parentName, parentContact, status, student],
+                function(err) {
+                    if (err) {
+                        reject(err);
+                    }
+                });
+            });
+        });
+    }
+
     deleteAllStudents(schoolId) {
         return new Promise((resolve, reject) => {
             this.db.serialize(() => {

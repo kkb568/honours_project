@@ -234,7 +234,54 @@ exports.changeSchoolEmail = async(req, res) => {
                 });
             });
         });
+    } catch (error) {
+        console.log(error.message);
+    }
+}
 
+// Method for editing student's details.
+exports.editStudentDetails = async(req, res) => {
+    try {
+        // Edit student's data.
+        db.changeStudentData(
+            req.body.name,
+            req.body.dateOfBirth,
+            req.body.startDate,
+            req.body.endDate,
+            req.body.parentName,
+            req.body.parentContact,
+            req.body.status,
+            req.body.studentName
+        );
+        // Get school id.
+        db.getSchoolId(req.params.school)
+        .then((result) => {
+            db.viewSchool(req.params.school)
+            .then((result1) => {
+                // Get the school's email address.
+                const schoolEmail = encryption.decrypt(result1[0].email, process.env.ENCRYPTION_KEY).toString();
+                // Count the number of available students.
+                db.countStudentBySchoolAndStatus(result[0].id, "Available")
+                .then((result2) => {
+                    // Count the number of not available students.
+                    db.countStudentBySchoolAndStatus(result[0].id, "Not available")
+                    .then((result3) => {
+                        // Get all students of the specified school.
+                        db.viewStudentsBySchool(result[0].id)
+                        .then((entry) => {
+                            // Render the school's page.
+                            res.render('schoolPage', {
+                                'schoolName': req.params.school,
+                                'schoolEmail': schoolEmail,
+                                'available': result2[0].studentCount,
+                                'notAvailable': result3[0].studentCount,
+                                'students': entry
+                            });
+                        });
+                    });
+                });
+            });
+        });
     } catch (error) {
         console.log(error.message);
     }

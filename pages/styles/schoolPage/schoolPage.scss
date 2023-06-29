@@ -225,34 +225,85 @@ table {
     }
 }
 
-.modal-dialog {
-    margin-top: 10em;
-}
+.grid_container2 {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 20px;
 
-.modal-footer {
-    button {
-        background-color: $navy-blue;
-        color: white;
-        border: none;
-        padding: 10px;
-        border-radius: 10px;
-        width: 50px;
-        font-weight: 600;
-        transition: 0.3s ease;
-
-        a {
-            color: white;
-            text-decoration: none;
-        }
-
-        a:hover {
-            color: $navy-blue;
-        }
+    input, select {
+        width: 90%;
+        outline: none;
     }
 
-    button:hover {
-        background-color: white;
-        color: $navy-blue;
-        border: 3px solid $navy-blue;
+    select {
+        cursor: pointer;
+    }
+}
+
+#deleteSchoolAccountModal {
+    .modal-dialog {
+        margin-top: 10em;
+    }
+    
+    .modal-footer {
+        button {
+            background-color: $navy-blue;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 10px;
+            width: 50px;
+            font-weight: 600;
+            transition: 0.3s ease;
+    
+            a {
+                color: white;
+                text-decoration: none;
+            }
+    
+            a:hover {
+                color: $navy-blue;
+            }
+        }
+    
+        button:hover {
+            background-color: white;
+            color: $navy-blue;
+            border: 3px solid $navy-blue;
+        }
+    }
+}
+
+#editStudentFormModal {
+    .modal-dialog {
+        margin-top: 5em;
+    }
+    
+    .modal-footer {
+        button {
+            background-color: $navy-blue;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 10px;
+            width: 100px;
+            font-weight: 600;
+            transition: 0.3s ease;
+    
+            a {
+                color: white;
+                text-decoration: none;
+            }
+    
+            a:hover {
+                color: $navy-blue;
+            }
+        }
+    
+        button:hover {
+            background-color: white;
+            color: $navy-blue;
+            border: 3px solid $navy-blue;
+        }
     }
 }
