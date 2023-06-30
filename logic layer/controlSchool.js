@@ -287,6 +287,150 @@ exports.editStudentDetails = async(req, res) => {
     }
 }
 
+// Method for showing student from a former school transferring to the current school or a dropout returning to the current school. 
+exports.searchReturnedStudent = async(req, res) => {
+    try {
+        let studentRecord = [];
+        // Show transferred student.
+        db.showTransferredStudent(req.body.returnedStudent)
+        .then((entry) => {
+            // Get school id.
+            db.getSchoolId(req.params.school)
+            .then((result) => {
+                // Check if the entry is an empty array or the student's school id is from another school (indicating school transfer).
+                if (entry.length > 0 && entry[0].schoolId != result[0].id) {
+                    studentRecord.push(entry[0]);
+                }
+            });
+        });
+        // Show student who was formerly dropout.
+        db.showReturnedStudent(req.body.returnedStudent)
+        .then((entry1) => {
+            // Check if entry is an empty string.
+            if (entry1.length > 0) {
+                studentRecord.push(entry1[0]);
+            }
+        });
+        // Get school id.
+        db.getSchoolId(req.params.school)
+        .then((result) => {
+            db.viewSchool(req.params.school)
+            .then((result1) => {
+                // Get the school's email address.
+                const schoolEmail = encryption.decrypt(result1[0].email, process.env.ENCRYPTION_KEY).toString();
+                // Count the number of available students.
+                db.countStudentBySchoolAndStatus(result[0].id, "Available")
+                .then((result2) => {
+                    // Count the number of not available students.
+                    db.countStudentBySchoolAndStatus(result[0].id, "Not available")
+                    .then((result3) => {
+                        // Get all students of the specified school.
+                        db.viewStudentsBySchool(result[0].id)
+                        .then((entry) => {
+                            // Render the school's page.
+                            res.render('schoolPage', {
+                                'schoolName': req.params.school,
+                                'schoolEmail': schoolEmail,
+                                'available': result2[0].studentCount,
+                                'notAvailable': result3[0].studentCount,
+                                'students': entry,
+                                'returnedStudent': studentRecord
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+// Method for adding the returning student to the current school.
+exports.addReturningStudent = async(req, res) => {
+    try {
+        // Get school id.
+        db.getSchoolId(req.params.school)
+        .then((result) => {
+            // Check if a student is transferring to the specified school.
+            db.viewStudentByStatus(req.body.checkStudent)
+            .then((entry) => {
+                if (entry.length > 0) {
+                    // Change the student's school.
+                    db.changeStudentSchool(
+                        result[0].id,
+                        req.body.returned_name,
+                        req.body.returned_dateOfBirth,
+                        req.body.returned_startDate,
+                        req.body.returned_endDate,
+                        req.body.returned_parent,
+                        req.body.returned_contact,
+                        req.body.checkStudent
+                    );
+                }
+            });
+            // Check the student from dropout table.
+            db.viewDropout(req.body.checkStudent)
+            .then((entry1) => {
+                if (entry1.length > 0) {
+                    // Remove the student from dropout table.
+                    db.removeFormerDropout(entry1[0].name);
+                    // Add student to the returnees table.
+                    db.addStudentToReturnees(
+                        result[0].id,
+                        req.body.returned_name,
+                        entry1[0].gender,
+                        req.body.returned_dateOfBirth,
+                        req.body.returned_startDate,
+                        req.body.returned_endDate,
+                        req.body.returned_parent,
+                        req.body.returned_contact
+                    );
+                    // Add student to the specified school.
+                    db.addStudentToSchool(
+                        result[0].id,
+                        req.body.returned_name,
+                        entry1[0].gender,
+                        req.body.returned_dateOfBirth,
+                        req.body.returned_startDate,
+                        req.body.returned_endDate,
+                        req.body.returned_parent,
+                        req.body.returned_contact
+                    );
+                }
+            });
+            db.viewSchool(req.params.school)
+            .then((result1) => {
+                // Get the school's email address.
+                const schoolEmail = encryption.decrypt(result1[0].email, process.env.ENCRYPTION_KEY).toString();
+                // Count the number of available students.
+                db.countStudentBySchoolAndStatus(result[0].id, "Available")
+                .then((result2) => {
+                    // Count the number of not available students.
+                    db.countStudentBySchoolAndStatus(result[0].id, "Not available")
+                    .then((result3) => {
+                        // Get all students of the specified school.
+                        db.viewStudentsBySchool(result[0].id)
+                        .then((entry) => {
+                            // Render the school's page.
+                            res.render('schoolPage', {
+                                'schoolName': req.params.school,
+                                'schoolEmail': schoolEmail,
+                                'available': result2[0].studentCount,
+                                'notAvailable': result3[0].studentCount,
+                                'students': entry
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+// Method for deleting school account.
 exports.deleteSchoolAccount = async(req, res, next) => {
     try {
         // Get school id.

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const controller = require('../logic layer/mainControl');
+const controller = require('../logic layer/controlSchool');
 const auth = require('../auth/authSchool');
 const confirmSchool = require('../auth/emailConfirmSchool');
 
@@ -18,6 +18,8 @@ router.post("/schoolPage/:school/:email", confirmSchool.verifyTokenCode,
 router.post("/changeEmail/:school", auth.verifyCookie, controller.changeSchoolEmail);
 router.post("/addNewStudent/:school", auth.verifyCookie, controller.addNewStudent);
 router.post("/editStudent/:school", auth.verifyCookie, controller.editStudentDetails);
+router.post("/searchReturnedStudent/:school", auth.verifyCookie, controller.searchReturnedStudent);
+router.post("/addReturnedStudent/:school", auth.verifyCookie, controller.addReturningStudent);
 
 router.get("/deleteAccount/:school", auth.clearCookie, controller.deleteSchoolAccount, controller.homepage);
 router.get("/signOut", auth.clearCookie, controller.homepage);

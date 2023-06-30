@@ -32,6 +32,9 @@ class dataConnect {
             // this.db.run('INSERT INTO dropout(schoolId, name, gender, dateOfBirth, startDate, endDate, parentName, parentContact, status) VALUES(1, "Ian Njunge", "male", "06/01/2008", "05/01/2023", "30/11/2027", "Peter Munguna", +2547226434199, "Not available"),(1, "Philip Chege", "male", "10/05/2008", "05/01/2021", "30/11/2025", "Joan Kachege", +2547657421389, "Not available"),(2, "Catherine Masika", "female", "28/05/2008", "05/01/2022", "30/11/2026", "Patrick M.", +2547367256469, "Not available"),(2, "Leah Wanjiru", "female", "13/02/2009", "05/01/2023", "30/11/2027", "Kabiti Kachie", +2547527334359, "Not available"),(3, "Patrick Kobia", "male", "20/04/2007", "05/01/2022", "30/11/2026", "Moses Wambugu", +2547455462119, "Not available"),(3, "Stephen Kathurima", "male", "11/03/2009", "05/01/2023", "30/11/2027", "Mustafa Njoe", +2547227414189, "Not available"),(4, "Mercy Olindo", "female", "12/04/2008", "05/01/2023", "30/11/2027", "Owino Mungai", +2547227512569, "Not available"),(4, "Phyllis Odinga", "female", "06/05/2008", "05/01/2023", "30/11/2027", "Onyango Odinga", +2547247434289, "Not available"),(2, "Maryanne Lawry", "female", "12/09/2006", "05/01/2022", "30/11/2026", "Levy Atondo", +2547253412239, "Not available"),(4, "Gakii Lawrence", "female", "12/04/2006", "05/01/2022", "30/11/2026", "Velly M. S.", +2547265337299, "Not available")');
             // this.db.run('INSERT INTO returnee(schoolId, name, gender, dateOfBirth, startDate, endDate, parentName, parentContact, status) VALUES (3, "Felix Kobia", "male", "04/15/2008", "05/01/2023", "30/11/2027", "Aaron Kariuki", +2547432425119, "Available"),(1, "Mbugua Kimani", "male", "12/06/2009", "05/01/2023", "30/11/2027", "Mustafa Kachie", +2547227414189, "Available"),(4, "Sarah Mbeere", "female", "22/07/2008", "05/01/2023", "30/11/2027", "Mbembe Mungai", +2547436552429, "Available"),(4, "Brenda Amani", "female", "18/04/2007", "05/01/2022", "30/11/2026", "Achondo J.", +2547441355278, "Available"),(2, "Grace Mburu", "female", "22/06/2007", "05/01/2022", "30/11/2026", "Jane Muigai", +2547425623614, "Available")');
             // this.db.run('INSERT INTO student(schoolId, name, gender, dateOfBirth, startDate, endDate, parentName, parentContact, status) VALUES (3, "Felix Kobia", "male", "04/15/2008", "05/01/2023", "30/11/2027", "Aaron Kariuki", +2547432425119, "Available"),(1, "Mbugua Kimani", "male", "12/06/2009", "05/01/2023", "30/11/2027", "Mustafa Kachie", +2547227414189, "Available"),(4, "Sarah Mbeere", "female", "22/07/2008", "05/01/2023", "30/11/2027", "Mbembe Mungai", +2547436552429, "Available"),(4, "Brenda Amani", "female", "18/04/2007", "05/01/2022", "30/11/2026", "Achondo J.", +2547441355278, "Available"),(2, "Grace Mburu", "female", "22/06/2007", "05/01/2022", "30/11/2026", "Jane Muigai", +2547425623614, "Available")');
+        
+            // this.db.run('INSERT INTO student(schoolId, name, gender, dateOfBirth, startDate, endDate, parentName, parentContact, status) VALUES(3, "Felix Omondi", "male", "13/06/2008", "05/01/2022", "30/11/2026", "Jonathan Otieno", +2547456323139, "Not available")');
+            // this.db.run('INSERT INTO dropout(schoolId, name, gender, dateOfBirth, startDate, endDate, parentName, parentContact, status) VALUES(1, "Alex Changamwe", "male", "11/07/2008", "05/01/2023", "30/11/2027", "Ian Waweru", +2547886321159, "Available")');
         });
     }
 
@@ -108,10 +111,40 @@ class dataConnect {
         });
     }
 
+    viewStudentByStatus(studentName) {
+        return new Promise((resolve, reject) => {
+            this.db.serialize(() => {
+                this.db.all("SELECT * FROM student WHERE name = ? AND status = 'Not available'", [studentName], 
+                function(err, entry) {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(entry);
+                    }
+                });
+            });
+        });
+    }
+
     viewStudentsBySchool(schoolId) {
         return new Promise((resolve, reject) => {
             this.db.serialize(() => {
                 this.db.all("SELECT * FROM student WHERE schoolId=?", [schoolId], 
+                function(err, entry) {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(entry);
+                    }
+                });
+            });
+        });
+    }
+
+    viewDropout(studentName) {
+        return new Promise((resolve, reject) => {
+            this.db.serialize(() => {
+                this.db.all("SELECT * FROM dropout WHERE name = ?", [studentName],
                 function(err, entry) {
                     if (err) {
                         reject(err);
@@ -164,11 +197,82 @@ class dataConnect {
         });
     }
 
+    changeStudentSchool(newSchoolId, newName, dateOfBirth, startDate, endDate, parentName, parentContact, student) {
+        return new Promise((resolve, reject) => {
+            this.db.serialize(() => {
+                this.db.run("UPDATE student SET schoolId = ?, name = ?, dateOfBirth = ?, startDate = ?, endDate = ?, parentName = ?, parentContact = ?, status = ? WHERE name = ?",
+                [newSchoolId, newName, dateOfBirth, startDate, endDate, parentName, parentContact, "Available", student],
+                function(err) {
+                    if (err) {
+                        reject(err);
+                    }
+                });
+            });
+        });
+    }
+
+    showTransferredStudent(studentName) {
+        return new Promise((resolve, reject) => {
+            this.db.serialize(() => {
+                this.db.all("SELECT * FROM student WHERE name = ? AND status = 'Not available'", [studentName], 
+                function(err, entry) {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(entry);
+                    }
+                });
+            });
+        });
+    }
+
+    showReturnedStudent(studentName) {
+        return new Promise((resolve, reject) => {
+            this.db.serialize(() => {
+                this.db.all("SELECT * FROM dropout WHERE name = ?", [studentName],
+                function(err, entry) {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(entry);
+                    }
+                });
+            });
+        });
+    }
+
+    removeFormerDropout(studentName) {
+        return new Promise((resolve, reject) => {
+            this.db.serialize(() => {
+                this.db.run("DELETE FROM dropout WHERE name = ?", [studentName],
+                function(err) {
+                    if (err) {
+                        reject(err);
+                    }
+                });
+            });
+        });
+    }
+
+    addStudentToReturnees(schoolId, studentName, gender, datOfBirth, startDate, endDate, parentName, parentContact) {
+        return new Promise((resolve, reject) => {
+            this.db.serialize(() => {
+                this.db.run("INSERT INTO returnee(schoolId, name, gender, dateOfBirth, startDate, endDate, parentName, parentContact, status) VALUES(?,?,?,?,?,?,?,?,?)",
+                [schoolId, studentName, gender, datOfBirth, startDate, endDate, parentName, parentContact, "Available"],
+                function(err) {
+                    if (err) {
+                        reject(err);
+                    }
+                });
+            });
+        });
+    }
+
     deleteAllStudents(schoolId) {
         return new Promise((resolve, reject) => {
             this.db.serialize(() => {
                 this.db.run("DELETE FROM student WHERE schoolId=?", [schoolId],
-                function(err, entry) {
+                function(err) {
                     if(err) {
                         reject(err);
                     }
@@ -181,7 +285,7 @@ class dataConnect {
         return new Promise((resolve, reject) => {
             this.db.serialize(() => {
                 this.db.run("DELETE FROM school WHERE id=?", [schoolId],
-                function(err, entry) {
+                function(err) {
                     if(err) {
                         reject(err);
                     }

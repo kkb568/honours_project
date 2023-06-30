@@ -115,10 +115,47 @@
             <div class="section">
                 <p>For any student from a former school or a dropout, search the student and, 
                     if found, add to your school student's details.</p>
-                <form>
-                    <input type="text" placeholder="&#xf002; Search student" style="font-family: FontAwesome, Arial; font-style: normal"><br><br>
+                <form action="/searchReturnedStudent/{{schoolName}}" method="post">
+                    <input type="text" name="returnedStudent" placeholder="&#xf002; Search student" style="font-family: FontAwesome, Arial; font-style: normal"><br><br>
                     <button>Search</button>
-                </form>
+                </form><br>
+                <div class="returnedStudent">
+                    {{#returnedStudent}}
+                    <form action="/addReturnedStudent/{{schoolName}}" method="post">
+                        <div class="grid_container3">
+                            <div class="grid1">
+                                <label for="returned_name">Full name:</label><br>
+                                <input type="text" name="returned_name" id="returned_name" value="{{name}}" required>
+                            </div>
+                            <div class="grid2">
+                                <label for="returned_dateOfBirth">Date of birth:</label><br>
+                                <input type="text" name="returned_dateOfBirth" id="returned_dateOfBirth" value="{{dateOfBirth}}" required>
+                            </div>
+                            <div class="grid3">
+                                <label for="returned_startDate">Start date:</label><br>
+                                <input type="text" name="returned_startDate" id="returned_startDate" value="{{startDate}}" required>
+                            </div>
+                            <div class="grid4">
+                                <label for="returned_endDate">End date:</label><br>
+                                <input type="text" name="returned_endDate" id="returned_endDate" value="{{endDate}}" required>
+                            </div>
+                            <div class="grid5">
+                                <label for="returned_parent">Parent/guardian name:</label><br>
+                                <input type="text" name="returned_parent" id="returned_parent" value="{{parentName}}" required>
+                            </div>
+                            <div class="grid6">
+                                <label for="returned_contact">Parent/guardian contact:</label><br>
+                                <input type="tel" name="returned_contact" id="returned_contact" value="{{parentContact}}" required>
+                            </div>
+                            <input type="hidden" name="checkStudent" value="{{name}}">
+                        </div><br>
+                        <button>Add student</button>
+                    </form>
+                    {{/returnedStudent}}
+                    {{^returnedStudent}}
+                        <p>No data displayed</p>
+                    {{/returnedStudent}}
+                </div>
             </div>
         </div>
     </div>

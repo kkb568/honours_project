@@ -206,6 +206,20 @@ table :nth-child(2) tr {
   cursor: pointer;
 }
 
+.grid_container3 {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 20px;
+}
+.grid_container3 input {
+  width: 90%;
+  outline: none;
+}
+.grid_container3 select {
+  width: 100%;
+  cursor: pointer;
+}
+
 #deleteSchoolAccountModal .modal-dialog {
   margin-top: 10em;
 }

@@ -240,6 +240,22 @@ table {
     }
 }
 
+.grid_container3 {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 20px;
+
+    input {
+        width: 90%;
+        outline: none;
+    }
+
+    select {
+        width: 100%;
+        cursor: pointer;
+    }
+}
+
 #deleteSchoolAccountModal {
     .modal-dialog {
         margin-top: 10em;
