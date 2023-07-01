@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="/styles/schoolPage/schoolPage.css">
-    <script src="/js/showSections.js"></script>
+    <script src="/js/showSectionsSchool.js"></script>
     <title>{{schoolName}}</title>
 </head>
 <body>
@@ -21,7 +21,7 @@
             <button class="button" onclick="showSection(2)">Student data</button>
             <button class="button" onclick="showSection(3)">Add student</button>
             <button class="button" onclick="showSection(4)">Search student</button>
-            <button id="signOut"><a href="/signOut">Sign-out</a></button>
+            <button id="signOut"><a href="/signOutSchool">Sign-out</a></button>
         </div>
         <div class="col-sm-10">
             <h1>{{schoolName}}</h1><hr>
@@ -168,7 +168,7 @@
                         the students' details and cannot be reversed.</b></p>
                 </div>
                 <div class="modal-footer">
-                    <button><a href="/deleteAccount/{{schoolName}}">Yes</a></button>
+                    <button><a href="/deleteSchoolAccount/{{schoolName}}">Yes</a></button>
                     <button data-bs-dismiss="modal">No</button>
                 </div>
             </div>

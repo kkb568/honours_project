@@ -1,0 +1,31 @@
+.row {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  width: 100%;
+  height: 100%;
+}
+.row :first-child img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.row :nth-child(2) {
+  display: table;
+}
+.row :nth-child(2) h2 {
+  text-align: center;
+  font-size: 50px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.row :nth-child(2) p {
+  font-size: larger;
+  margin: auto;
+}
+
+.errorContent {
+  display: table-cell;
+  vertical-align: middle;
+}/*# sourceMappingURL=error.css.map */

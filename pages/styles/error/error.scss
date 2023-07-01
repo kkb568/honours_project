@@ -1,0 +1,36 @@
+.row {
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+
+    :first-child {
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+
+    :nth-child(2) {
+        display: table;
+
+        h2 {
+            text-align: center;
+            font-size: 50px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        p {
+            font-size: larger;
+            margin: auto;
+        }
+    }
+}
+
+.errorContent {
+    display: table-cell;
+    vertical-align: middle;
+}

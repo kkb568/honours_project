@@ -15,7 +15,7 @@ class dataConnect {
             this.db.run("CREATE TABLE IF NOT EXISTS student(id INTEGER PRIMARY KEY AUTOINCREMENT, schoolId INTEGER REFERENCES school(id), name TEXT, gender VARCHAR(20), dateOfBirth DATE, startDate DATE, endDate DATE, parentName TEXT, parentContact VARCHAR(200), status CHAR(100))");
             this.db.run("CREATE TABLE IF NOT EXISTS dropout(id INTEGER PRIMARY KEY AUTOINCREMENT, schoolId INTEGER REFERENCES school(id), name TEXT, gender VARCHAR(20), dateOfBirth DATE, startDate DATE, endDate DATE, parentName TEXT, parentContact VARCHAR(200), status CHAR(100))");
             this.db.run("CREATE TABLE IF NOT EXISTS returnee(id INTEGER PRIMARY KEY AUTOINCREMENT, schoolId INTEGER REFERENCES school(id), name TEXT, gender VARCHAR(20), dateOfBirth DATE, startDate DATE, endDate DATE, parentName TEXT, parentContact VARCHAR(200), status CHAR(100))");
-            this.db.run("CREATE TABLE IF NOT EXISTS ngoUser(id INTEGER PRIMARY KEY AUTOINCREMENT, email VARCHAR(200) UNIQUE, password VARCHAR(200) UNIQUE)");
+            this.db.run("CREATE TABLE IF NOT EXISTS ngoUser(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, email VARCHAR(200) UNIQUE, password VARCHAR(200) UNIQUE)");
             // this.db.run('INSERT INTO province(name) VALUES("CENTRAL")');
             // this.db.run('INSERT INTO province(name) VALUES("COAST")');
             // this.db.run('INSERT INTO province(name) VALUES("EASTERN")');
@@ -34,7 +34,7 @@ class dataConnect {
             // this.db.run('INSERT INTO student(schoolId, name, gender, dateOfBirth, startDate, endDate, parentName, parentContact, status) VALUES (3, "Felix Kobia", "male", "04/15/2008", "05/01/2023", "30/11/2027", "Aaron Kariuki", +2547432425119, "Available"),(1, "Mbugua Kimani", "male", "12/06/2009", "05/01/2023", "30/11/2027", "Mustafa Kachie", +2547227414189, "Available"),(4, "Sarah Mbeere", "female", "22/07/2008", "05/01/2023", "30/11/2027", "Mbembe Mungai", +2547436552429, "Available"),(4, "Brenda Amani", "female", "18/04/2007", "05/01/2022", "30/11/2026", "Achondo J.", +2547441355278, "Available"),(2, "Grace Mburu", "female", "22/06/2007", "05/01/2022", "30/11/2026", "Jane Muigai", +2547425623614, "Available")');
         
             // this.db.run('INSERT INTO student(schoolId, name, gender, dateOfBirth, startDate, endDate, parentName, parentContact, status) VALUES(3, "Felix Omondi", "male", "13/06/2008", "05/01/2022", "30/11/2026", "Jonathan Otieno", +2547456323139, "Not available")');
-            // this.db.run('INSERT INTO dropout(schoolId, name, gender, dateOfBirth, startDate, endDate, parentName, parentContact, status) VALUES(1, "Alex Changamwe", "male", "11/07/2008", "05/01/2023", "30/11/2027", "Ian Waweru", +2547886321159, "Available")');
+            // this.db.run('INSERT INTO dropout(schoolId, name, gender, dateOfBirth, startDate, endDate, parentName, parentContact, status) VALUES(1, "Alex Changamwe", "male", "11/07/2008", "05/01/2023", "30/11/2027", "Ian Waweru", +2547886321159, "Not available")');
         });
     }
 
@@ -99,7 +99,7 @@ class dataConnect {
     countStudentBySchoolAndStatus(schoolId, status) {
         return new Promise((resolve, reject) => {
             this.db.serialize(() => {
-                this.db.all("SELECT COUNT(*) as studentCount FROM student WHERE schoolId=? and status=?", [schoolId, status],
+                this.db.all("SELECT COUNT(*) AS studentCount FROM student WHERE schoolId=? and status=?", [schoolId, status],
                 function(err, entry) {
                     if (err) {
                         reject(err);

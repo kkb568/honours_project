@@ -8,7 +8,7 @@ const saltRounds = 10;
 // Get the homepage.
 exports.homepage = async(req, res) => {
     try {
-        res.redirect('/index');
+        res.redirect('/');
     } catch (error) {
         console.log(error.message);
     }
@@ -32,24 +32,6 @@ exports.schoolLogin = async(req, res) => {
     }
 }
 
-// Get the ngo signup page.
-exports.ngoSignup = async(req, res) => {
-    try {
-        res.redirect('/ngoSignup')
-    } catch (error) {
-        console.log(error,message);
-    }
-}
-
-// Get the ngo login page.
-exports.ngoLogin = async(req, res) => {
-    try {
-        res.redirect('/ngoLogin')
-    } catch (error) {
-        console.log(error.message);
-    }
-}
-
 // Method for signing-in a new school.
 exports.newSchoolSignup = async(req, res, next) => {
     try {
@@ -61,7 +43,7 @@ exports.newSchoolSignup = async(req, res, next) => {
         
         db.viewSchool(schoolName)
         .then((result) => {
-            // If the school data does exists (so as to prevent repetition on signup)..
+            // If the school data does exists (so as to prevent repetition on signup).
             if (result.length > 0) {
                 console.log("School exists.")
                 return;

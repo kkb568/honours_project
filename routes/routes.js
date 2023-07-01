@@ -1,27 +1,51 @@
 const express = require('express');
 const router = express.Router();
-const controller = require('../logic layer/controlSchool');
-const auth = require('../auth/authSchool');
+const controllerSchool = require('../logic layer/controlSchool');
+const controllerNgo = require('../logic layer/controlNgo');
+const authSchool = require('../auth/authSchool');
+const authNgo = require('../auth/authNgo');
 const confirmSchool = require('../auth/emailConfirmSchool');
+const confirmNgo = require('../auth/emailConfirmNgo');
 
-router.get("/", controller.homepage);
-router.get("/schoolSignup", controller.schoolSignup);
-router.get("/schoolLogin", controller.schoolLogin);
-router.get("/ngoSignup", controller.ngoSignup);
-router.get("/ngoLogin", controller.ngoLogin);
+router.get("/", controllerSchool.homepage);
+router.get("/schoolSignup", controllerSchool.schoolSignup);
+router.get("/schoolLogin", controllerSchool.schoolLogin);
+router.get("/ngoSignup", controllerNgo.ngoSignup);
+router.get("/ngoLogin", controllerNgo.ngoLogin);
 
-router.post("/newSchool", controller.newSchoolSignup, controller.schoolLogin);
-router.post("/confirmSchool", controller.loginSchool, confirmSchool.schoolLoginConfirmPage);
+// Post methods for the school side.
+router.post("/newSchool", controllerSchool.newSchoolSignup, controllerSchool.schoolLogin);
+router.post("/confirmSchool", controllerSchool.loginSchool, confirmSchool.schoolLoginConfirmPage);
 router.post("/schoolPage/:school/:email", confirmSchool.verifyTokenCode, 
-    auth.createCookie,
-    controller.loginSchoolConfirm);
-router.post("/changeEmail/:school", auth.verifyCookie, controller.changeSchoolEmail);
-router.post("/addNewStudent/:school", auth.verifyCookie, controller.addNewStudent);
-router.post("/editStudent/:school", auth.verifyCookie, controller.editStudentDetails);
-router.post("/searchReturnedStudent/:school", auth.verifyCookie, controller.searchReturnedStudent);
-router.post("/addReturnedStudent/:school", auth.verifyCookie, controller.addReturningStudent);
+    authSchool.createCookie,
+    controllerSchool.loginSchoolConfirm);
+router.post("/changeEmail/:school", authSchool.verifyCookie, controllerSchool.changeSchoolEmail);
+router.post("/addNewStudent/:school", authSchool.verifyCookie, controllerSchool.addNewStudent);
+router.post("/editStudent/:school", authSchool.verifyCookie, controllerSchool.editStudentDetails);
+router.post("/searchReturnedStudent/:school", authSchool.verifyCookie, controllerSchool.searchReturnedStudent);
+router.post("/addReturnedStudent/:school", authSchool.verifyCookie, controllerSchool.addReturningStudent);
 
-router.get("/deleteAccount/:school", auth.clearCookie, controller.deleteSchoolAccount, controller.homepage);
-router.get("/signOut", auth.clearCookie, controller.homepage);
+// Post methods for the NGO side.
+router.post("/newNgoAccount", controllerNgo.newNgoAccount, controllerNgo.ngoLogin);
+router.post("/confirmNgoUser", controllerNgo.loginNgoUser, confirmNgo.ngoLoginConfirmPage);
+router.post("/ngoPage/:name/:email", confirmNgo.verifyTokenCode, 
+    authNgo.createCookie,
+    controllerNgo.loginNgoUserConfirm);
+
+// Delete and logout for both sides.
+router.get("/deleteSchoolAccount/:school", authSchool.clearCookie, controllerSchool.deleteSchoolAccount, controllerSchool.homepage);
+router.get("/signOutSchool", authSchool.clearCookie, controllerSchool.homepage);
+router.get("/signOutNgo", authNgo.clearCookie, controllerSchool.homepage);
+router.get("/deleteNgoAccount/:name", authNgo.clearCookie, controllerNgo.deleteNgoAccount, controllerSchool.homepage);
+
+// 404-error functionality.
+router.use(function (req, res) {
+    res.status(404).redirect('/404Error');
+});
+
+// Internal server error functionality.
+router.use(function (req, res) {
+    res.status(500).redirect('/500Error');
+});
 
 module.exports = router;

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/jquery.dataTables.min.js" integrity="sha512-BkpSL20WETFylMrcirBahHfSnY++H2O1W+UnEEO4yNIl+jI2+zowyoGJpbtk6bx97fBXf++WJHSSK2MV4ghPcg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables.net-bs5/1.13.4/dataTables.bootstrap5.min.js" integrity="sha512-KFdmxVdAssPxrj4mZh1c01AbGXMAmXmBsO4Tc/GG5+kNLqitTfUBpDHicyDwF7CaFV+pN1r808IOK+vHzWB8gw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/styles/ngoPage/ngoPage.css">
+    <script src="/js/showSectionsNgo.js"></script>
+    <title>Ngo page</title>
+</head>
+<body>
+    <div class="row" id="ngoPageContent">
+        <div class="col-sm-2">
+            <button class="button active" onclick="showSection(1)">Notifications</button>
+            <button class="button" onclick="showSection(2)">Dropouts</button>
+            <button class="button" onclick="showSection(3)">Returnees</button>
+            <button class="button" onclick="showSection(4)">Statistics</button>
+            <button id="signOut"><a href="/signOutNgo">Sign-out</a></button>
+            <button id="deleteAccount"><a data-bs-toggle="modal" data-bs-target="#deleteNgoUserAccountModal">Delete account</a></button>
+        </div>
+        <div class="col-sm-10">
+            <div class="section selected">
+                <h1>Notifications</h1><hr>
+            </div>
+            <div class="section">
+                <h1>Dropouts</h1><hr>
+                <div class="table-responsive">
+                    <table id="dropoutsDataTable" class="table table-hover table-bordered">
+                        <thead>
+                            <th>Full name <i onclick="sortByStudentName('dropoutsDataTable')" class="fa fa-sort"></i></th>
+                            <th>Date of birth</th>
+                            <th>Start date</th>
+                            <th>End date</th>
+                            <th>Parent/guardian</th>
+                            <th>Contact details</th>
+                            <th>Status</th>
+                        </thead>
+                        <tbody>
+                            {{#dropouts}}
+                            <tr>
+                                <td>{{name}}</td>
+                                <td>{{dateOfBirth}}</td>
+                                <td>{{startDate}}</td>
+                                <td>{{endDate}}</td>
+                                <td>{{parentName}}</td>
+                                <td>{{parentContact}}</td>
+                                <td>{{status}}</td>
+                            </tr>
+                            {{/dropouts}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="section">
+                <h1>Returnees</h1><hr>
+                <div class="table-responsive">
+                    <table id="returneesDataTable" class="table table-hover table-bordered">
+                        <thead>
+                            <th>Full name <i onclick="sortByStudentName('returneesDataTable')" class="fa fa-sort"></i></th>
+                            <th>Date of birth</th>
+                            <th>Start date</th>
+                            <th>End date</th>
+                            <th>Parent/guardian</th>
+                            <th>Contact details</th>
+                            <th>Status</th>
+                        </thead>
+                        <tbody>
+                            {{#returnees}}
+                            <tr>
+                                <td>{{name}}</td>
+                                <td>{{dateOfBirth}}</td>
+                                <td>{{startDate}}</td>
+                                <td>{{endDate}}</td>
+                                <td>{{parentName}}</td>
+                                <td>{{parentContact}}</td>
+                                <td>{{status}}</td>
+                            </tr>
+                            {{/returnees}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="section">
+                <h1>Statistics</h1><hr>
+                <p>Number of dropouts: {{countDropouts}}</p>
+                <p>Number of returnees: {{countReturnees}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="deleteNgoUserAccountModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p><b>Are you sure you want to delete your account?</b></p>
+                    <p style="color: red"><b>Note: Note: This action will remove your account 
+                        and cannot be reversed.</b></p>
+                </div>
+                <div class="modal-footer">
+                    <button><a href="/deleteNgoAccount/{{userName}}">Yes</a></button>
+                    <button data-bs-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

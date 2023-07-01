@@ -16,23 +16,6 @@ function showSection(itemNumber) {
     });
 }
 
-function searchStudent() {
-    const searchStudent = document.getElementById('studentInput');
-    const studentsDataTable = document.getElementById('studentsDataTable');
-    const searchInput = searchStudent.value.toUpperCase();
-    var tableRow = studentsDataTable.rows;
-    // Loop through all table rows except the first one.
-    for (let i = 1; i < tableRow.length; i++) {
-        // Get the students' names from the table rows.
-        const studentName = tableRow[i].getElementsByTagName("td")[0].innerText;
-        if (studentName.toUpperCase().indexOf(searchInput) > -1) {
-            tableRow[i].style.display = "";
-        } else {
-            tableRow[i].style.display = "none";
-        }
-    }
-}
-
 function sortByStudentName() {
     const studentsDataTable = document.getElementById('studentsDataTable');
     // Setting the switching action.
