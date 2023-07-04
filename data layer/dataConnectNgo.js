@@ -83,10 +83,40 @@ class dataConnect {
         });
     }
 
+    countDropoutsByGender(gender) {
+        return new Promise((resolve, reject) => {
+            this.db.serialize(() => {
+                this.db.all("SELECT COUNT(*) AS countDropouts FROM dropout WHERE gender = ?", [gender],
+                function(err, entry) {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(entry);
+                    }
+                });
+            });
+        });
+    }
+
     countReturnees() {
         return new Promise((resolve, reject) => {
             this.db.serialize(() => {
                 this.db.all("SELECT COUNT(*) AS countReturnees FROM returnee",
+                function(err, entry) {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(entry);
+                    }
+                });
+            });
+        });
+    }
+
+    countReturneesByGender(gender) {
+        return new Promise((resolve, reject) => {
+            this.db.serialize(() => {
+                this.db.all("SELECT COUNT(*) AS countReturnees FROM returnee WHERE gender = ?", [gender],
                 function(err, entry) {
                     if (err) {
                         reject(err);

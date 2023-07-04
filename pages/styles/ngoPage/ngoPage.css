@@ -112,4 +112,31 @@ table :nth-child(2) tr {
   background-color: white;
   color: #000080;
   border: 3px solid #000080;
+}
+
+.totalStatistics {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 10px;
+}
+
+.total {
+  width: 80%;
+  padding: 10px;
+  border: 1px solid;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
+}
+
+.carousel-indicators {
+  margin-bottom: 0rem;
+}
+.carousel-indicators button {
+  filter: invert(100%);
+}
+
+.chart {
+  height: 450px;
+}
+.chart canvas {
+  margin-left: 10%;
 }/*# sourceMappingURL=ngoPage.css.map */

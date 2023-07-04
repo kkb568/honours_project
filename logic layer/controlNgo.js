@@ -77,6 +77,36 @@ exports.loginNgoUser = async(req, res, next) => {
     }
 }
 
+// Method for counting dropouts by gender.
+exports.countDropouts = async(req, res, next) => {
+    // Get number of male dropouts.
+    db.countDropoutsByGender('male')
+    .then((result) => {
+        res.locals.countMaleDropouts = result[0].countDropouts;
+        // Get number of female dropouts.
+        db.countDropoutsByGender('female')
+        .then((result1) => {
+            res.locals.countFemaleDropouts = result1[0].countDropouts;
+            next();
+        });
+    });
+}
+
+// Method for counting returnees by gender.
+exports.countReturnees = async(req, res, next) => {
+    // Get number of male returnees.
+    db.countReturneesByGender('male')
+    .then((result) => {
+        res.locals.countMaleReturnees = result[0].countReturnees;
+        // Get number of female returnees.
+        db.countReturneesByGender('female')
+        .then((result1) => {
+            res.locals.countFemaleReturnees = result1[0].countReturnees;
+            next();
+        });
+    });
+}
+
 // Method for login-in ngo user after confirmation.
 exports.loginNgoUserConfirm = async(req, res) => {
     try {
@@ -98,7 +128,11 @@ exports.loginNgoUserConfirm = async(req, res) => {
                             'dropouts': result,
                             'returnees': result1,
                             'countDropouts': result2[0].countDropouts,
-                            'countReturnees': result3[0].countReturnees
+                            'countReturnees': result3[0].countReturnees,
+                            'maleDropouts': res.locals.countMaleDropouts,
+                            'femaleDropouts': res.locals.countFemaleDropouts,
+                            'maleReturnees': res.locals.countMaleReturnees,
+                            'femaleReturnees': res.locals.countFemaleReturnees
                         });
                     });
                 });

@@ -130,3 +130,32 @@ table {
         }
     }
 }
+
+.totalStatistics {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 10px;
+}
+
+.total {
+    width: 80%;
+    padding: 10px;
+    border: 1px solid;
+    box-shadow: 5px 5px 5px rgba($color: #000000, $alpha: 0.3);
+}
+
+.carousel-indicators {
+    margin-bottom: 0rem;
+
+    button {
+        filter: invert(100%);
+    }
+}
+
+.chart {
+    height: 450px;
+
+    canvas {
+        margin-left: 10%;
+    }
+}

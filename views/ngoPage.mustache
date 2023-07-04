@@ -11,6 +11,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="/styles/ngoPage/ngoPage.css">
     <script src="/js/showSectionsNgo.js"></script>
+    <script src="/js/createChart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            createDropoutByGenderChart('{{maleDropouts}}', '{{femaleDropouts}}');
+            createReturneesByGenderChart('{{maleReturnees}}', '{{femaleReturnees}}');
+        });
+    </script>
     <title>Ngo page</title>
 </head>
 <body>
@@ -87,8 +94,31 @@
             </div>
             <div class="section">
                 <h1>Statistics</h1><hr>
-                <p>Number of dropouts: {{countDropouts}}</p>
-                <p>Number of returnees: {{countReturnees}}</p>
+                <div class="totalStatistics">
+                    <div class="total"><p><b>Total number of dropouts:</b> {{countDropouts}}</p></div>
+                    <div class="total"><p><b>Total number of returnees:</b> {{countReturnees}}</p></div>
+                </div><br>
+                <div id="charts" class="carousel slide" data-bs-ride="carousel">
+                    <!-- Indicators/dots -->
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#charts" data-bs-slide-to="0" class="active"></button>
+                        <button type="button" data-bs-target="#charts" data-bs-slide-to="1"></button>
+                    </div>
+                    <!-- The slideshow/carousel -->
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <div class="chart">
+                                <canvas id="dropoutsChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="chart">
+                                <canvas id="returneesChart"></canvas>
+                            </div>
+                        </div>
+                    </div> 
+                  </div>
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
             </div>
         </div>
     </div>

@@ -30,6 +30,8 @@ router.post("/newNgoAccount", controllerNgo.newNgoAccount, controllerNgo.ngoLogi
 router.post("/confirmNgoUser", controllerNgo.loginNgoUser, confirmNgo.ngoLoginConfirmPage);
 router.post("/ngoPage/:name/:email", confirmNgo.verifyTokenCode, 
     authNgo.createCookie,
+    controllerNgo.countDropouts,
+    controllerNgo.countReturnees,
     controllerNgo.loginNgoUserConfirm);
 
 // Delete and logout for both sides.
