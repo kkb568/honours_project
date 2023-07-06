@@ -128,7 +128,7 @@ table :nth-child(2) tr {
 }
 
 .carousel-indicators {
-  margin-bottom: 0rem;
+  margin-bottom: -1rem;
 }
 .carousel-indicators button {
   filter: invert(100%);

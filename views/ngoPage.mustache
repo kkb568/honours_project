@@ -16,6 +16,8 @@
         document.addEventListener('DOMContentLoaded', function() {
             createDropoutByGenderChart('{{maleDropouts}}', '{{femaleDropouts}}');
             createReturneesByGenderChart('{{maleReturnees}}', '{{femaleReturnees}}');
+            createDropoutByProvinceChart('{{dropoutsByProvince}}');
+            createReturneesByProvinceChart('{{returneesByProvince}}');
         });
     </script>
     <title>Ngo page</title>
@@ -103,6 +105,8 @@
                     <div class="carousel-indicators">
                         <button type="button" data-bs-target="#charts" data-bs-slide-to="0" class="active"></button>
                         <button type="button" data-bs-target="#charts" data-bs-slide-to="1"></button>
+                        <button type="button" data-bs-target="#charts" data-bs-slide-to="2"></button>
+                        <button type="button" data-bs-target="#charts" data-bs-slide-to="3"></button>
                     </div>
                     <!-- The slideshow/carousel -->
                     <div class="carousel-inner">
@@ -114,6 +118,16 @@
                         <div class="carousel-item">
                             <div class="chart">
                                 <canvas id="returneesChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="chart">
+                                <canvas id="dropoutsByProvinceChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="chart">
+                                <canvas id="returneesByProvinceChart"></canvas>
                             </div>
                         </div>
                     </div> 

@@ -98,6 +98,21 @@ class dataConnect {
         });
     }
 
+    countDropoutsByProvince() {
+        return new Promise((resolve, reject) => {
+            this.db.serialize(() => {
+                this.db.all("WITH dropoutSchools AS (SELECT dropout.name AS dropoutName, school.provinceId AS schoolProvince, school.name AS schoolName FROM dropout INNER JOIN school ON dropout.schoolId = school.id) SELECT COUNT(dropoutName) AS dropoutCount, province.name AS provinceName FROM province INNER JOIN dropoutSchools ON dropoutSchools.schoolProvince = province.id GROUP BY provinceName",
+                function(err, entry) {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(entry);
+                    }
+                });
+            });
+        });
+    }
+
     countReturnees() {
         return new Promise((resolve, reject) => {
             this.db.serialize(() => {
@@ -117,6 +132,21 @@ class dataConnect {
         return new Promise((resolve, reject) => {
             this.db.serialize(() => {
                 this.db.all("SELECT COUNT(*) AS countReturnees FROM returnee WHERE gender = ?", [gender],
+                function(err, entry) {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(entry);
+                    }
+                });
+            });
+        });
+    }
+
+    countReturneesByProvince() {
+        return new Promise((resolve, reject) => {
+            this.db.serialize(() => {
+                this.db.all("WITH returneeSchools AS (SELECT returnee.name AS returneeName, school.provinceId AS schoolProvince, school.name AS schoolName FROM returnee INNER JOIN school ON returnee.schoolId = school.id) SELECT COUNT(returneeName) AS returneeCount, province.name AS provinceName FROM province INNER JOIN returneeSchools ON returneeSchools.schoolProvince = province.id GROUP BY provinceName",
                 function(err, entry) {
                     if (err) {
                         reject(err);
