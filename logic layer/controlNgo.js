@@ -7,7 +7,9 @@ const saltRounds = 10;
 // Get the ngo signup page.
 exports.ngoSignup = async(req, res) => {
     try {
-        res.redirect('/ngoSignup')
+        res.render('ngoSignup', {
+            'messages': req.flash()
+        });
     } catch (error) {
         console.log(error,message);
     }
@@ -16,7 +18,9 @@ exports.ngoSignup = async(req, res) => {
 // Get the ngo login page.
 exports.ngoLogin = async(req, res) => {
     try {
-        res.redirect('/ngoLogin')
+        res.render('ngoLogin', {
+            'messages': req.flash()
+        });
     } catch (error) {
         console.log(error.message);
     }
@@ -29,13 +33,19 @@ exports.newNgoAccount = async(req, res, next) => {
         .then((result) => {
             // If the school data does exists (so as to prevent repetition on signup).
             if (result.length > 0) {
-                console.log("School exists.")
-                return;
+                req.flash("error", "User exists. Try again or login if you have an account.");
+                var error = req.flash();
+                return res.render('ngoSignup', {
+                    'messages': error
+                });
             }
             // Check if the password and re-enter password are the same or not.
             if (req.body.password != req.body.reenterPassword) {
-                console.log("Password not the same.") // TO BE CHANGED LATER.
-                return;
+                req.flash("error", "The two passwords do not match.");
+                var error = req.flash();
+                return res.render('ngoSignup', {
+                    'messages': error
+                });
             }
             // Encrypt the email address.
             const encryptedEmail = encryption.encrypt(req.body.email, process.env.ENCRYPTION_KEY);
@@ -43,7 +53,12 @@ exports.newNgoAccount = async(req, res, next) => {
             const hashedPassword = bcrypt.hashSync(req.body.password, saltRounds);
             // Add ngo details to the database.
             db.addNgoUser(req.body.name, encryptedEmail, hashedPassword);
-            next();
+            // Render the school login page with success message.
+            req.flash("success", "Signup successful.");
+            var success = req.flash();
+            return res.render('ngoLogin', {
+                'messages': success
+            });
         });
     } catch (error) {
         console.log(error.message);
@@ -57,8 +72,11 @@ exports.loginNgoUser = async(req, res, next) => {
         .then((result) => {
             // If there isn't, show a warning to the user.
             if (result.length == 0) {
-                console.log("User does not exists");  // TO BE CHANGED LATER.
-                return;
+                req.flash("error", "User does not exists. Check your credentials or signup if you don't have an account.");
+                var error = req.flash();
+                return res.render('ngoLogin', {
+                    'messages': error
+                });
             }
             // Compare the inputted password and the stored password from the database.
             bcrypt.compare(req.body.password, result[0].password, function(err, result1) {
@@ -67,8 +85,11 @@ exports.loginNgoUser = async(req, res, next) => {
                     next();
                 }
                 else {
-                    console.log("Password do not match.");
-                    return;
+                    req.flash("error", "Incorrect credentials.");
+                    var error = req.flash();
+                    return res.render('ngoLogin', {
+                        'messages': error
+                    });
                 }
             });
         });

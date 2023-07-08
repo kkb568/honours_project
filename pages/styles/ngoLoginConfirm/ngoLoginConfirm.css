@@ -1,3 +1,10 @@
+.success-container, .error-container {
+  position: absolute;
+  left: 35%;
+  top: 10px;
+  z-index: 2;
+}
+
 .container-fluid {
   position: absolute;
   left: 0%;
@@ -50,4 +57,15 @@
   background-color: white;
   color: #000080;
   border: 3px solid #000080;
+}
+
+@media (max-width: 1000px) and (min-width: 600px) {
+  .success-container, .error-container {
+    left: 25%;
+  }
+}
+@media (max-width: 600px) {
+  .success-container, .error-container {
+    left: 10%;
+  }
 }/*# sourceMappingURL=ngoLoginConfirm.css.map */

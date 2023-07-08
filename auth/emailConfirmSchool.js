@@ -35,10 +35,13 @@ exports.schoolLoginConfirmPage = async(req, res) => {
         console.log(console.error);
     }
 
+    req.flash("success", "Login successful.");
+    var successMessage = req.flash();
     const encryptedEmail = encryption.encrypt(req.body.email, process.env.ENCRYPTION_KEY).toString();
     res.render('schoolLoginConfirm', {
         'school': req.body.school,
-        'email': encryptedEmail
+        'email': encryptedEmail,
+        'messages': successMessage
     })
 }
 
@@ -46,8 +49,13 @@ exports.schoolLoginConfirmPage = async(req, res) => {
 exports.verifyTokenCode = async(req, res, next) => {
     jwt.verify(req.body.code, process.env.SCHOOL_CONFIRM_TOKEN, function(err, decoded) {
         if(err) {
-            console.log("Email verification failed. Possibly expired or invalid"); // TO BE CHANGED.
-            return;
+            req.flash("error", "Email verification failed. Possibly expired or invalid. Try again.");
+            var errorMessage = req.flash();
+            return res.render('schoolLoginConfirm', {
+                'school': req.params.school,
+                'email': req.params.email,
+                'messages': errorMessage
+            });
         }
         else {
             next();

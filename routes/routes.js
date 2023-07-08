@@ -14,7 +14,7 @@ router.get("/ngoSignup", controllerNgo.ngoSignup);
 router.get("/ngoLogin", controllerNgo.ngoLogin);
 
 // Post methods for the school side.
-router.post("/newSchool", controllerSchool.newSchoolSignup, controllerSchool.schoolLogin);
+router.post("/newSchool", controllerSchool.newSchoolSignup);
 router.post("/confirmSchool", controllerSchool.loginSchool, confirmSchool.schoolLoginConfirmPage);
 router.post("/schoolPage/:school/:email", confirmSchool.verifyTokenCode, 
     authSchool.createCookie,
@@ -26,7 +26,7 @@ router.post("/searchReturnedStudent/:school", authSchool.verifyCookie, controlle
 router.post("/addReturnedStudent/:school", authSchool.verifyCookie, controllerSchool.addReturningStudent);
 
 // Post methods for the NGO side.
-router.post("/newNgoAccount", controllerNgo.newNgoAccount, controllerNgo.ngoLogin);
+router.post("/newNgoAccount", controllerNgo.newNgoAccount);
 router.post("/confirmNgoUser", controllerNgo.loginNgoUser, confirmNgo.ngoLoginConfirmPage);
 router.post("/ngoPage/:name/:email", confirmNgo.verifyTokenCode, 
     authNgo.createCookie,

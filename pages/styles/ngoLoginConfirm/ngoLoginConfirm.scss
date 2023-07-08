@@ -1,5 +1,12 @@
 $navy-blue: #000080;
 
+.success-container, .error-container {
+    position: absolute;
+    left: 35%;
+    top: 10px;
+    z-index: 2;
+}
+
 .container-fluid {
     position: absolute;
     left: 0%;
@@ -57,5 +64,17 @@ $navy-blue: #000080;
             color: $navy-blue;
             border: 3px solid $navy-blue;
         }
+    }
+}
+
+@media (max-width: 1000px) and (min-width: 600px) {
+    .success-container, .error-container {
+        left: 25%;
+    }
+}
+
+@media (max-width: 600px) {
+    .success-container, .error-container {
+        left: 10%;
     }
 }

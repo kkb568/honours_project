@@ -84,9 +84,6 @@ table {
 table th i {
   cursor: pointer;
 }
-table :nth-child(2) tr {
-  cursor: pointer;
-}
 
 #deleteNgoUserAccountModal .modal-dialog {
   margin-top: 10em;
@@ -128,7 +125,7 @@ table :nth-child(2) tr {
 }
 
 .carousel-indicators {
-  margin-bottom: -1rem;
+  bottom: -2rem;
 }
 .carousel-indicators button {
   filter: invert(100%);
@@ -139,4 +136,21 @@ table :nth-child(2) tr {
 }
 .chart canvas {
   margin-left: 10%;
+}
+
+@media (max-width: 1000px) and (min-width: 600px) {
+  .carousel {
+    margin-bottom: -15px;
+  }
+  .carousel-indicators {
+    bottom: 2rem;
+  }
+}
+@media (max-width: 600px) {
+  .carousel {
+    margin-bottom: -15px;
+  }
+  .carousel-indicators {
+    bottom: 8rem;
+  }
 }/*# sourceMappingURL=ngoPage.css.map */

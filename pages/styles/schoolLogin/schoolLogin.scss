@@ -1,5 +1,12 @@
 $navy-blue: #000080;
 
+.error-container, .success-container {
+    position: absolute;
+    left: 40%;
+    top: 10px;
+    z-index: 2;
+}
+
 .row {
     position: absolute;
     top: 0%;

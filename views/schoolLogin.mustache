@@ -11,6 +11,31 @@
     <title>Login - school</title>
 </head>
 <body>
+    <script>
+        window.onload = function() {
+            var errorMessage = '{{messages.error}}';
+            if (errorMessage != '') {
+                document.getElementById('error-group').style.opacity = '1';
+                document.getElementById('errors').innerHTML = errorMessage;
+            }
+            var successMessage = '{{messages.success}}';
+            if (successMessage != '') {
+                document.getElementById('success-group').style.opacity = '1';
+                document.getElementById('success').innerHTML = successMessage;
+            }
+        }
+    </script>
+    <div class="error-container">
+        <div class="alert alert-danger" role="alert" id="error-group" style="opacity: 0; transition: 1s ease;">
+            <p id="errors"></p>
+        </div>
+    </div>
+    <div class="success-container">
+        <div class="alert alert-success" role="alert" id="success-group" style="opacity: 0; transition: 1s ease;">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <p id="success"></p>
+        </div>
+    </div>
     <div class="row">
         <div class="col">
             <img src="images/school_login pic.png" alt="Three Kenyan high school boys, one with blazer, another with grey half sweater and another with just a white shirt.">
@@ -22,11 +47,11 @@
                 <label for="school">Name of secondary school:</label><br>
                 <select id="school" name="school" required></select><br><br>
                 <label for="email">Email address:</label><br>
-                <input type="email" name="email" required><br><br>
+                <input id="email" type="email" name="email" required><br><br>
                 <label for="password">Password:</label><br>
                 <input type="password" name="password" id="password" required>
                 <i class="fa fa-eye" id="eye" onclick="togglePassword()"></i><br><br>
-                <button>Login</button>
+                <button id="login">Login</button>
             </form>
             <p>New school? Click <a href="schoolSignup">here</a></p>
             <p>Forgot password? Click here</p>

@@ -15,6 +15,21 @@
     <title>{{schoolName}}</title>
 </head>
 <body>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var successMessage = '{{messages.success}}';
+            if (successMessage != '') {
+                document.getElementById('success-group').style.opacity = '1';
+                document.getElementById('success').innerHTML = successMessage;
+            }
+        });
+    </script>
+    <div class="success-container">
+        <div class="alert alert-success alert-dismissible" role="alert" id="success-group" style="opacity: 0; transition: 1s ease;">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <p id="success"></p>
+        </div>
+    </div>
     <div class="row" id="schoolPageContent">
         <div class="col-sm-2">
             <button class="button active" onclick="showSection(1)">Account</button>

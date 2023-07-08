@@ -22,6 +22,31 @@
     </script>
 </head>
 <body>
+    <script>
+        window.onload = function() {
+            var errorMessage = '{{messages.error}}';
+            if (errorMessage != '') {
+                document.getElementById('error-group').style.opacity = '1';
+                document.getElementById('errors').innerHTML = errorMessage;
+            }
+            var successMessage = '{{messages.success}}';
+            if (successMessage != '') {
+                document.getElementById('success-group').style.opacity = '1';
+                document.getElementById('success').innerHTML = successMessage;
+            }
+        }
+    </script>
+    <div class="error-container">
+        <div class="alert alert-danger" role="alert" id="error-group" style="opacity: 0; transition: 1s ease;">
+            <p id="errors"></p>
+        </div>
+    </div>
+    <div class="success-container">
+        <div class="alert alert-success" role="alert" id="success-group" style="opacity: 0; transition: 1s ease;">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <p id="success"></p>
+        </div>
+    </div>
     <div class="container-fluid">
         <div class="outer-container">
             <div class="inner-container">

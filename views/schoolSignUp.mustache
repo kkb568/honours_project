@@ -11,6 +11,20 @@
     <title>Signup - school</title>
 </head>
 <body>
+    <script>
+        window.onload = function() {
+            var errorMessage = '{{messages.error}}';
+            if (errorMessage != '') {
+                document.getElementById('error-group').style.opacity = '1';
+                document.getElementById('errors').innerHTML = errorMessage;
+            }
+        }
+    </script>
+    <div class="error-container">
+        <div class="alert alert-danger" role="alert" id="error-group" style="opacity: 0; transition: 1s ease;">
+            <p id="errors"></p>
+        </div>
+    </div>
     <div class="row">
         <div class="col">
             <img src="images/school_signup pic.jpg" alt="High school girl with grey sweater and white shirt">

@@ -1,5 +1,12 @@
 $navy-blue: #000080;
 
+.error-container {
+    position: absolute;
+    left: 35%;
+    top: 10px;
+    z-index: 2;
+}
+
 .container-fluid {
     position: absolute;
     left: 0%;
@@ -62,5 +69,17 @@ $navy-blue: #000080;
             margin-left: -30px;
             cursor: pointer;
         }
+    }
+}
+
+@media (max-width: 1000px) and (min-width: 600px) {
+    .error-container {
+        left: 25%;
+    }
+}
+
+@media (max-width: 600px) {
+    .error-container {
+        left: 10%;
     }
 }

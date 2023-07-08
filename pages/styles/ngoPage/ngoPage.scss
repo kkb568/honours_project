@@ -66,6 +66,23 @@ $navy-blue: #000080;
         text-align: center;
         font-weight: bold;
     }
+
+    // :nth-child(4) > button {
+    //     background-color: $navy-blue;
+    //     color: white;
+    //     border: none;
+    //     padding: 10px;
+    //     border-radius: 10px;
+    //     width: 150px;
+    //     font-weight: 600;
+    //     transition: 0.3s ease;
+    // }
+
+    // :nth-child(4) > button:hover {
+    //     background-color: white;
+    //     color: $navy-blue;
+    //     border: 3px solid $navy-blue;
+    // }
 }
 
 .section {
@@ -90,10 +107,6 @@ table {
         i {
             cursor: pointer;
         }
-    }
-    
-    :nth-child(2) tr {
-        cursor: pointer;
     }
 }
 
@@ -145,7 +158,7 @@ table {
 }
 
 .carousel-indicators {
-    margin-bottom: -1rem;
+    bottom: -2rem;
 
     button {
         filter: invert(100%);
@@ -158,4 +171,30 @@ table {
     canvas {
         margin-left: 10%;
     }
+}
+
+@media (max-width: 1000px) and (min-width: 600px) {
+    .carousel {
+        margin-bottom: -15px;
+    }
+    
+    .carousel-indicators {
+        bottom: 2rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .carousel {
+        margin-bottom: -15px;
+    }
+    
+    .carousel-indicators {
+        bottom: 8rem;
+    }
+
+    // .col-sm-10 {
+    //     :nth-child(4) > button {
+    //         margin-bottom: 10px;
+    //     }
+    // }
 }

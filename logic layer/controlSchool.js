@@ -17,7 +17,9 @@ exports.homepage = async(req, res) => {
 // Get the school signup page.
 exports.schoolSignup = async(req, res) => {
     try {
-        res.redirect('/schoolSignup');
+        res.render('schoolSignup', {
+            'messages': req.flash()
+        });
     } catch (error) {
         console.log(error.message);
     }
@@ -26,14 +28,16 @@ exports.schoolSignup = async(req, res) => {
 // Get the school login page.
 exports.schoolLogin = async(req, res) => {
     try {
-        res.redirect('/schoolLogin');
+        res.render('schoolLogin',{
+            'messages': req.flash()
+        });
     } catch (error) {
         console.log(error.message);
     }
 }
 
 // Method for signing-in a new school.
-exports.newSchoolSignup = async(req, res, next) => {
+exports.newSchoolSignup = async(req, res) => {
     try {
         const schoolValue = req.body.school;
         // Separate the school name and the province name.
@@ -45,13 +49,19 @@ exports.newSchoolSignup = async(req, res, next) => {
         .then((result) => {
             // If the school data does exists (so as to prevent repetition on signup).
             if (result.length > 0) {
-                console.log("School exists.")
-                return;
+                req.flash("error", "User exists. Try again or login if you have an account.");
+                var error = req.flash();
+                return res.render('schoolSignup', {
+                    'messages': error
+                });
             }
             // Check if the password and re-enter password are the same or not.
             if(req.body.password != req.body.reenterPassword) {
-                console.log("Password not the same.") // TO BE CHANGED LATER.
-                return;
+                req.flash("error", "The two passwords do not match.");
+                var error = req.flash();
+                return res.render('schoolSignup', {
+                    'messages': error
+                });
             }
             // Get the province id using the province name.
             db.getProvinceId(schoolProvince)
@@ -62,7 +72,12 @@ exports.newSchoolSignup = async(req, res, next) => {
                 const hashedPassword = bcrypt.hashSync(req.body.password, saltRounds);
                 // Add school details to the database.
                 db.addSchool(result1[0].id, schoolName, encryptedEmail, hashedPassword);
-                next();
+                // Render the school login page with success message.
+                req.flash("success", "Signup successful.");
+                var success = req.flash();
+                return res.render('schoolLogin', {
+                    'messages': success
+                });
             })
         });
     } catch (error) {
@@ -78,8 +93,11 @@ exports.loginSchool = async(req, res, next) => {
         .then((record) => {
             // If there isn't, show a warning to the user.
             if (record.length == 0) {
-                console.log("User does not exists");  // TO BE CHANGED LATER.
-                return;
+                req.flash("error", "User does not exists. Check your credentials or signup if you don't have an account.");
+                var error = req.flash();
+                return res.render('schoolLogin', {
+                    'messages': error
+                });
             }
             // Compare the inputted password and the stored password from the database.
             bcrypt.compare(req.body.password, record[0].password, function(err, result) {
@@ -88,8 +106,11 @@ exports.loginSchool = async(req, res, next) => {
                     next();
                 }
                 else {
-                    console.log("Password do not match.");
-                    return;
+                    req.flash("error", "Incorrect credentials.");
+                    var error = req.flash();
+                    return res.render('schoolLogin', {
+                        'messages': error
+                    });
                 }
             });
         });
@@ -163,12 +184,15 @@ exports.addNewStudent = async(req, res) => {
                         db.viewStudentsBySchool(result[0].id)
                         .then((entry) => {
                             // Render the school's page.
+                            req.flash("success", "Student added successfully.");
+                            var success = req.flash();
                             res.render('schoolPage', {
                                 'schoolName': req.params.school,
                                 'schoolEmail': schoolEmail,
                                 'available': result2[0].studentCount,
                                 'notAvailable': result3[0].studentCount,
-                                'students': entry
+                                'students': entry,
+                                'messages': success
                             });
                         });
                     });
@@ -252,12 +276,15 @@ exports.editStudentDetails = async(req, res) => {
                         db.viewStudentsBySchool(result[0].id)
                         .then((entry) => {
                             // Render the school's page.
+                            req.flash("success", "Student details changed successfully.");
+                            var success = req.flash();
                             res.render('schoolPage', {
                                 'schoolName': req.params.school,
                                 'schoolEmail': schoolEmail,
                                 'available': result2[0].studentCount,
                                 'notAvailable': result3[0].studentCount,
-                                'students': entry
+                                'students': entry,
+                                'messages': success
                             });
                         });
                     });
@@ -395,12 +422,15 @@ exports.addReturningStudent = async(req, res) => {
                         db.viewStudentsBySchool(result[0].id)
                         .then((entry) => {
                             // Render the school's page.
+                            req.flash("success", "Student added successfully.");
+                            var success = req.flash();
                             res.render('schoolPage', {
                                 'schoolName': req.params.school,
                                 'schoolEmail': schoolEmail,
                                 'available': result2[0].studentCount,
                                 'notAvailable': result3[0].studentCount,
-                                'students': entry
+                                'students': entry,
+                                'messages': success
                             });
                         });
                     });
