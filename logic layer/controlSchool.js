@@ -259,6 +259,10 @@ exports.editStudentDetails = async(req, res) => {
             req.body.status,
             req.body.studentName
         );
+        // Set timer if student's status is 'Not available' (timerEnd is 1 minute for testing purposes).
+        if (req.body.status == 'Not available') {
+            db.addTimer(new Date(Date.now() + (1*60*1000)), req.body.name);
+        }
         // Get school id.
         db.getSchoolId(req.params.school)
         .then((result) => {
@@ -436,6 +440,42 @@ exports.addReturningStudent = async(req, res) => {
                     });
                 });
             });
+        });
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+exports.checkStudentTimer = async(req, res, next) => {
+    try {
+        // Check any student from student table who is not available.
+        db.checkUnavailableStudents()
+        .then((result) => {
+            // Confirm if there is any student found.
+            if (result.length > 0) {
+                result.forEach(element => {
+                    // Check if current datetime is greater than or equal to timerEnd.
+                    if (new Date() >= element.timerEnd) {
+                        // Add each student to dropout table.
+                        db.addStudentToDropout(
+                            element.schoolId,
+                            element.name,
+                            element.gender,
+                            element.dateOfBirth,
+                            element.startDate,
+                            element.endDate,
+                            element.parentName,
+                            element.parentContact
+                        );
+                        // Delete student record from student table.
+                        db.deleteStudent(element.name);
+                        db.addNotification();
+                    }
+                });
+                next();
+            } else {
+                next();
+            }
         });
     } catch (error) {
         console.log(error.message);

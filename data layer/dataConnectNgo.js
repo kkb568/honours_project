@@ -158,6 +158,21 @@ class dataConnect {
         });
     }
 
+    getNotifications() {
+        return new Promise((resolve, reject) => {
+            this.db.serialize(() => {
+                this.db.all("SELECT * FROM notifications",
+                function(err, entry) {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(entry);
+                    }
+                });
+            });
+        });
+    }
+
     deleteNgoAccount(ngoName) {
         return new Promise((resolve, reject) => {
             this.db.serialize(() => {

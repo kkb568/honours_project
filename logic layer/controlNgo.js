@@ -144,6 +144,18 @@ exports.countReturnees = async(req, res, next) => {
     });
 }
 
+exports.getNotificationMessages = async(req, res, next) => {
+    try {
+        db.getNotifications()
+        .then((result) => {
+            res.locals.notifications = result;
+            next();
+        });
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
 // Method for login-in ngo user after confirmation.
 exports.loginNgoUserConfirm = async(req, res) => {
     try {
@@ -171,7 +183,8 @@ exports.loginNgoUserConfirm = async(req, res) => {
                             'maleReturnees': res.locals.countMaleReturnees,
                             'femaleReturnees': res.locals.countFemaleReturnees,
                             'dropoutsByProvince': res.locals.countDropoutsByProvince,
-                            'returneesByProvince': res.locals.countReturneesByProvince
+                            'returneesByProvince': res.locals.countReturneesByProvince,
+                            'notifications': res.locals.notifications
                         });
                     });
                 });

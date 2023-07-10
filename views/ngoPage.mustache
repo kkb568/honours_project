@@ -35,6 +35,16 @@
         <div class="col-sm-10">
             <div class="section selected">
                 <h1>Notifications</h1><hr>
+                <div class="notifications">
+                    {{#notifications}}
+                        <div class="notificationContent">
+                            <p>{{message}}</p>
+                        </div>
+                    {{/notifications}}
+                    {{^notifications}}
+                        <p style="text-align: center; font-size: x-large;">No notification currently.</p>
+                    {{/notifications}}
+                </div>
             </div>
             <div class="section">
                 <h1>Dropouts</h1><hr>

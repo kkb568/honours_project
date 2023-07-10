@@ -12,10 +12,11 @@ class dataConnect {
         this.db.serialize(() => {
             this.db.run("CREATE TABLE IF NOT EXISTS province(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT UNIQUE)");
             this.db.run("CREATE TABLE IF NOT EXISTS school(id INTEGER PRIMARY KEY AUTOINCREMENT, provinceId INTEGER REFERENCES province(id), name TEXT UNIQUE, email VARCHAR(200) UNIQUE, password VARCHAR(200))");
-            this.db.run("CREATE TABLE IF NOT EXISTS student(id INTEGER PRIMARY KEY AUTOINCREMENT, schoolId INTEGER REFERENCES school(id), name TEXT, gender VARCHAR(20), dateOfBirth DATE, startDate DATE, endDate DATE, parentName TEXT, parentContact VARCHAR(200), status CHAR(100))");
+            this.db.run("CREATE TABLE IF NOT EXISTS student(id INTEGER PRIMARY KEY AUTOINCREMENT, schoolId INTEGER REFERENCES school(id), name TEXT, gender VARCHAR(20), dateOfBirth DATE, startDate DATE, endDate DATE, parentName TEXT, parentContact VARCHAR(200), status CHAR(100), timerEnd DATETIME)");
             this.db.run("CREATE TABLE IF NOT EXISTS dropout(id INTEGER PRIMARY KEY AUTOINCREMENT, schoolId INTEGER REFERENCES school(id), name TEXT, gender VARCHAR(20), dateOfBirth DATE, startDate DATE, endDate DATE, parentName TEXT, parentContact VARCHAR(200), status CHAR(100))");
             this.db.run("CREATE TABLE IF NOT EXISTS returnee(id INTEGER PRIMARY KEY AUTOINCREMENT, schoolId INTEGER REFERENCES school(id), name TEXT, gender VARCHAR(20), dateOfBirth DATE, startDate DATE, endDate DATE, parentName TEXT, parentContact VARCHAR(200), status CHAR(100))");
             this.db.run("CREATE TABLE IF NOT EXISTS ngoUser(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, email VARCHAR(200) UNIQUE, password VARCHAR(200) UNIQUE)");
+            this.db.run("CREATE TABLE IF NOT EXISTS notifications(id INTEGER PRIMARY KEY AUTOINCREMENT, message TEXT)");
             // this.db.run('INSERT INTO province(name) VALUES("CENTRAL")');
             // this.db.run('INSERT INTO province(name) VALUES("COAST")');
             // this.db.run('INSERT INTO province(name) VALUES("EASTERN")');
@@ -211,6 +212,61 @@ class dataConnect {
         });
     }
 
+    addTimer(timerEnd, student) {
+        return new Promise((resolve, reject) => {
+            this.db.serialize(() => {
+                this.db.run("UPDATE student SET timerEnd = ? WHERE name = ?", [timerEnd, student],
+                function(err) {
+                    if (err) {
+                        reject(err);
+                    }
+                });
+            });
+        });
+    }
+
+    checkUnavailableStudents() {
+        return new Promise((resolve, reject) => {
+            this.db.serialize(() => {
+                this.db.all("SELECT * FROM student WHERE status = 'Not available'", 
+                function(err, entry) {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(entry);
+                    }
+                });
+            });
+        });
+    }
+
+    addStudentToDropout(schoolId, studentName, gender, datOfBirth, startDate, endDate, parentName, parentContact) {
+        return new Promise((resolve, reject) => {
+            this.db.serialize(() => {
+                this.db.run("INSERT INTO dropout(schoolId, name, gender, dateOfBirth, startDate, endDate, parentName, parentContact, status) VALUES(?,?,?,?,?,?,?,?,?)",
+                [schoolId, studentName, gender, datOfBirth, startDate, endDate, parentName, parentContact, "Not available"],
+                function(err) {
+                    if (err) {
+                        reject(err);
+                    }
+                });
+            });
+        });
+    }
+
+    addNotification() {
+        return new Promise((resolve, reject) => {
+            const time = new Date().toLocaleDateString("en-US", {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric'});
+            const message = `1 student added to dropout records on ${time}`;
+            this.db.run("INSERT INTO notifications(message) VALUES(?)", [message],
+            function(err, entry) {
+                if (err) {
+                    reject(err);
+                }
+            });
+        });
+    }
+
     showTransferredStudent(studentName) {
         return new Promise((resolve, reject) => {
             this.db.serialize(() => {
@@ -261,6 +317,19 @@ class dataConnect {
                 [schoolId, studentName, gender, datOfBirth, startDate, endDate, parentName, parentContact, "Available"],
                 function(err) {
                     if (err) {
+                        reject(err);
+                    }
+                });
+            });
+        });
+    }
+
+    deleteStudent(student) {
+        return new Promise((resolve, reject) => {
+            this.db.serialize(() => {
+                this.db.run("DELETE FROM student WHERE name=?", [student],
+                function(err) {
+                    if(err) {
                         reject(err);
                     }
                 });

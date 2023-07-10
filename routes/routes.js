@@ -18,12 +18,23 @@ router.post("/newSchool", controllerSchool.newSchoolSignup);
 router.post("/confirmSchool", controllerSchool.loginSchool, confirmSchool.schoolLoginConfirmPage);
 router.post("/schoolPage/:school/:email", confirmSchool.verifyTokenCode, 
     authSchool.createCookie,
+    controllerSchool.checkStudentTimer,
     controllerSchool.loginSchoolConfirm);
-router.post("/changeEmail/:school", authSchool.verifyCookie, controllerSchool.changeSchoolEmail);
-router.post("/addNewStudent/:school", authSchool.verifyCookie, controllerSchool.addNewStudent);
-router.post("/editStudent/:school", authSchool.verifyCookie, controllerSchool.editStudentDetails);
-router.post("/searchReturnedStudent/:school", authSchool.verifyCookie, controllerSchool.searchReturnedStudent);
-router.post("/addReturnedStudent/:school", authSchool.verifyCookie, controllerSchool.addReturningStudent);
+router.post("/changeEmail/:school", authSchool.verifyCookie, 
+    controllerSchool.checkStudentTimer, 
+    controllerSchool.changeSchoolEmail);
+router.post("/addNewStudent/:school", authSchool.verifyCookie, 
+    controllerSchool.checkStudentTimer, 
+    controllerSchool.addNewStudent);
+router.post("/editStudent/:school", authSchool.verifyCookie, 
+    controllerSchool.checkStudentTimer,
+    controllerSchool.editStudentDetails);
+router.post("/searchReturnedStudent/:school", authSchool.verifyCookie,
+    controllerSchool.checkStudentTimer, 
+    controllerSchool.searchReturnedStudent);
+router.post("/addReturnedStudent/:school", authSchool.verifyCookie,
+    controllerSchool.checkStudentTimer,
+    controllerSchool.addReturningStudent);
 
 // Post methods for the NGO side.
 router.post("/newNgoAccount", controllerNgo.newNgoAccount);
@@ -32,13 +43,18 @@ router.post("/ngoPage/:name/:email", confirmNgo.verifyTokenCode,
     authNgo.createCookie,
     controllerNgo.countDropouts,
     controllerNgo.countReturnees,
+    controllerNgo.getNotificationMessages,
     controllerNgo.loginNgoUserConfirm);
 
 // Delete and logout for both sides.
-router.get("/deleteSchoolAccount/:school", authSchool.clearCookie, controllerSchool.deleteSchoolAccount, controllerSchool.homepage);
+router.get("/deleteSchoolAccount/:school", authSchool.clearCookie, 
+    controllerSchool.deleteSchoolAccount, 
+    controllerSchool.homepage);
 router.get("/signOutSchool", authSchool.clearCookie, controllerSchool.homepage);
 router.get("/signOutNgo", authNgo.clearCookie, controllerSchool.homepage);
-router.get("/deleteNgoAccount/:name", authNgo.clearCookie, controllerNgo.deleteNgoAccount, controllerSchool.homepage);
+router.get("/deleteNgoAccount/:name", authNgo.clearCookie, 
+    controllerNgo.deleteNgoAccount, 
+    controllerSchool.homepage);
 
 // 404-error functionality.
 router.use(function (req, res) {

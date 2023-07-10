@@ -78,6 +78,20 @@
   z-index: 2;
 }
 
+.notifications {
+  width: 100%;
+  max-height: 100%;
+  overflow-y: auto;
+}
+
+.notificationContent {
+  padding: 5px;
+  border: 2px solid black;
+  border-radius: 10px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
 table {
   margin-top: 10px;
 }
