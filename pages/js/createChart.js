@@ -177,3 +177,58 @@ function createReturneesByProvinceChart(data) {
         }
     });
 }
+
+function createDropoutsByAgeChart(data) {
+    // Convert object to string.
+    var record = JSON.stringify(data);
+    // Separate the string into sub-strings using the comma as delimiter.
+    var arr = record.split(",");
+    // Remove the opening and closing quotes.
+    arr[0] = arr[0].split('"')[1];
+    arr[arr.length-1] = arr[arr.length-1].split('"')[0];
+    var values = [], keys = [];
+    // Separate the values and keys by checking if the arr index is divisible by 2.
+    for (let i = 0; i < arr.length; i++) {
+        if (i % 2 != 0) {
+            values.push(arr[i]);
+        } else {
+            keys.push(arr[i]);
+        }
+    }
+    const chart = document.getElementById('dropoutsByAgeChart');
+    new Chart(chart, {
+        type: 'bar',
+        data: {
+            labels: keys,
+            datasets: [{
+                label: 'Number of dropouts',
+                data: values,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Age'
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                }
+            },
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Dropouts by age',
+                    color: 'black',
+                    font: {
+                        size: 20,
+                        weight: 'bold'
+                    }
+                }
+            }
+        }
+    });
+}

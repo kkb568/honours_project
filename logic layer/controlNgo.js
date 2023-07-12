@@ -98,15 +98,25 @@ exports.loginNgoUser = async(req, res, next) => {
     }
 }
 
-// Method for counting dropouts by gender and province.
+// Method for counting dropouts by gender, age and province.
 exports.countDropouts = async(req, res, next) => {
     db.countDropoutsByProvince()
     .then((entry) => {
+        // Convert JSON object to array.
         let record = [];
         for (let i = 0; i < entry.length; i++) {
             record.push(Object.values(entry[i]));
         }
         res.locals.countDropoutsByProvince = record;
+    });
+    db.countDropoutsByAge()
+    .then((entry1) => {
+        // Convert JSON object to array.
+        let record1 = [];
+        for (let i = 0; i < entry1.length; i++) {
+            record1.push(Object.values(entry1[i]));
+        }
+        res.locals.countDropoutsByAge = record1;
     });
     // Get number of male dropouts.
     db.countDropoutsByGender('male')
@@ -184,6 +194,7 @@ exports.loginNgoUserConfirm = async(req, res) => {
                             'femaleReturnees': res.locals.countFemaleReturnees,
                             'dropoutsByProvince': res.locals.countDropoutsByProvince,
                             'returneesByProvince': res.locals.countReturneesByProvince,
+                            'dropoutsByAge': res.locals.countDropoutsByAge,
                             'notifications': res.locals.notifications
                         });
                     });

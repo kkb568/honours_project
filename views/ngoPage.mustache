@@ -18,6 +18,7 @@
             createReturneesByGenderChart('{{maleReturnees}}', '{{femaleReturnees}}');
             createDropoutByProvinceChart('{{dropoutsByProvince}}');
             createReturneesByProvinceChart('{{returneesByProvince}}');
+            createDropoutsByAgeChart('{{dropoutsByAge}}');
         });
     </script>
     <title>Ngo page</title>
@@ -117,6 +118,7 @@
                         <button type="button" data-bs-target="#charts" data-bs-slide-to="1"></button>
                         <button type="button" data-bs-target="#charts" data-bs-slide-to="2"></button>
                         <button type="button" data-bs-target="#charts" data-bs-slide-to="3"></button>
+                        <button type="button" data-bs-target="#charts" data-bs-slide-to="4"></button>
                     </div>
                     <!-- The slideshow/carousel -->
                     <div class="carousel-inner">
@@ -138,6 +140,11 @@
                         <div class="carousel-item">
                             <div class="chart">
                                 <canvas id="returneesByProvinceChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="chart">
+                                <canvas id="dropoutsByAgeChart"></canvas>
                             </div>
                         </div>
                     </div> 

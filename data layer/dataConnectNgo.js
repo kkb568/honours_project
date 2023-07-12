@@ -113,6 +113,21 @@ class dataConnect {
         });
     }
 
+    countDropoutsByAge() {
+        return new Promise((resolve, reject) => {
+            this.db.serialize(() => {
+                this.db.all("WITH dropoutAge AS (SELECT (strftime('%Y', 'now') - strftime('%Y', substr(dateOfBirth, 7, 4) || '-' || substr(dateOfBirth, 4, 2) || '-' || substr(dateOfBirth, 1, 2))) - (strftime('%m-%d', 'now') < strftime('%m-%d', substr(dateOfBirth, 7, 4) || '-' || substr(dateOfBirth, 4, 2) || '-' || substr(dateOfBirth, 1, 2))) as age FROM dropout) SELECT age, COUNT(age) AS dropoutCount FROM dropoutAge GROUP BY age",
+                function(err, entry) {
+                    if (err) {
+                        reject(err);
+                    } else {
+                       resolve(entry);
+                    }
+                });
+            });
+        });
+    }
+
     countReturnees() {
         return new Promise((resolve, reject) => {
             this.db.serialize(() => {
