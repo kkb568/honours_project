@@ -1,5 +1,7 @@
 const dataConnector = require('../data layer/dataConnectNgo');
 const db = new dataConnector();
+const spawn = require('child_process').spawn;
+const py = spawn('python', ['tensor.py']);
 const encryption = require('node-encryption');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
@@ -98,7 +100,7 @@ exports.loginNgoUser = async(req, res, next) => {
     }
 }
 
-// Method for counting dropouts by gender, age and province.
+// Method for counting dropouts by gender, age, province and date inserted.
 exports.countDropouts = async(req, res, next) => {
     db.countDropoutsByProvince()
     .then((entry) => {
@@ -117,6 +119,14 @@ exports.countDropouts = async(req, res, next) => {
             record1.push(Object.values(entry1[i]));
         }
         res.locals.countDropoutsByAge = record1;
+    });
+    db.countDropoutsByDateInserted()
+    .then((entry2) => {
+        let record2 = [];
+        for (let i = 0; i < entry2.length; i++) {
+            record2.push(Object.values(entry2[i]));
+        }
+        res.locals.countDropoutsByDateInserted = record2;
     });
     // Get number of male dropouts.
     db.countDropoutsByGender('male')
@@ -195,6 +205,7 @@ exports.loginNgoUserConfirm = async(req, res) => {
                             'dropoutsByProvince': res.locals.countDropoutsByProvince,
                             'returneesByProvince': res.locals.countReturneesByProvince,
                             'dropoutsByAge': res.locals.countDropoutsByAge,
+                            'dropoutByDateInserted': res.locals.countDropoutsByDateInserted,
                             'notifications': res.locals.notifications
                         });
                     });

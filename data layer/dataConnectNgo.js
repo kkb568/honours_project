@@ -128,6 +128,21 @@ class dataConnect {
         });
     }
 
+    countDropoutsByDateInserted() {
+        return new Promise((resolve, reject) => {
+            this.db.serialize(() => {
+                this.db.all("WITH dropoutDateInserted AS (SELECT strftime('%Y-%m', substr(dateInserted, 7, 4) || '-' || substr(dateInserted, 4, 2) || '-' || substr(dateInserted, 1, 2)) AS dateInserted FROM dropout) SELECT dateInserted, COUNT(dateInserted) AS dropoutCount FROM dropoutDateInserted GROUP BY dateInserted ORDER BY dateInserted",
+                function(err, entry) {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(entry);
+                    }
+                });
+            });
+        });
+    }
+
     countReturnees() {
         return new Promise((resolve, reject) => {
             this.db.serialize(() => {
