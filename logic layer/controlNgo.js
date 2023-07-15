@@ -1,7 +1,5 @@
 const dataConnector = require('../data layer/dataConnectNgo');
 const db = new dataConnector();
-const spawn = require('child_process').spawn;
-const py = spawn('python', ['tensor.py']);
 const encryption = require('node-encryption');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
