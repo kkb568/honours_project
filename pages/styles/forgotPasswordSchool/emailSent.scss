@@ -1,0 +1,30 @@
+.row {
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100vh;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    h2, p {
+        text-align: center;
+    }
+
+    h2 {
+        text-transform: uppercase;
+        font-weight: bold;
+    }
+
+    p {
+        font-size: x-large;
+    }
+}
+
+.col:last-child {
+    margin-top: 250px;
+}

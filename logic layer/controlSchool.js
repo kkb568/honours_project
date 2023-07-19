@@ -36,6 +36,51 @@ exports.schoolLogin = async(req, res) => {
     }
 }
 
+// Get the forgot password page for school.
+exports.forgotPasswordPage = async(req, res) => {
+    try {
+        res.render('forgotPasswordSchool', {
+            'messages': req.flash()
+        });
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+// Open the reset password page for school.
+exports.resetPasswordPage = async(req, res) => {
+    try {
+        res.render('resetPasswordSchool', {
+            'school': req.params.school,
+            'messages': req.flash()
+        });
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+// Resetting the password from the reset password page.
+exports.changePassword = async(req, res) => {
+    try {
+        // Check if the password and the re-entered password are the same.
+        if (req.body.password != req.body.confirmPassword) {
+            req.flash("error", "The two passwords do not match.");
+            var error = req.flash();
+            return res.render('resetPasswordSchool', {
+                'school': req.params.school,
+                'messages': error
+            });
+        }
+        // Hash the password.
+        const hashedPassword = bcrypt.hashSync(req.body.password, saltRounds);
+        // Change the password.
+        db.changePassword(req.params.school, hashedPassword);
+        res.redirect('/passwordChangedSchool');
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
 // Method for signing-in a new school.
 exports.newSchoolSignup = async(req, res) => {
     try {

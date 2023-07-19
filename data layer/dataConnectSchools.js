@@ -324,6 +324,19 @@ class dataConnect {
         });
     }
 
+    changePassword(schoolName, password) {
+        return new Promise((resolve, reject) => {
+            this.db.serialize(() => {
+                this.db.run("UPDATE school SET password = ? WHERE name = ?", [password, schoolName],
+                function(err) {
+                    if (err) {
+                        reject(err);
+                    }
+                });
+            });
+        });
+    }
+
     deleteStudent(student) {
         return new Promise((resolve, reject) => {
             this.db.serialize(() => {

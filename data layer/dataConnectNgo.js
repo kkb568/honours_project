@@ -203,6 +203,19 @@ class dataConnect {
         });
     }
 
+    changePassword(user, password) {
+        return new Promise((resolve, reject) => {
+            this.db.serialize(() => {
+                this.db.run("UPDATE ngoUser SET password = ? WHERE name = ?", [password, user],
+                function(err) {
+                    if (err) {
+                        reject(err);
+                    }
+                });
+            });
+        });
+    }
+
     deleteNgoAccount(ngoName) {
         return new Promise((resolve, reject) => {
             this.db.serialize(() => {

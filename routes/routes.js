@@ -12,8 +12,16 @@ router.get("/schoolSignup", controllerSchool.schoolSignup);
 router.get("/schoolLogin", controllerSchool.schoolLogin);
 router.get("/ngoSignup", controllerNgo.ngoSignup);
 router.get("/ngoLogin", controllerNgo.ngoLogin);
+router.get("/forgotPasswordSchool", controllerSchool.forgotPasswordPage);
+router.get("/resetPasswordSchool/:school", controllerSchool.resetPasswordPage);
+router.get("/resetPasswordNgo/:name", controllerNgo.resetPasswordPage);
+router.get("/forgotPasswordNgo", controllerNgo.forgotPasswordPage);
 
 // Post methods for the school side.
+router.post("/sendResetLinkSchool", confirmSchool.sendResetLink);
+router.post("/sendResetLinkNgo", confirmNgo.sendResetLink);
+router.post("/resetPasswordSchool/:school", controllerSchool.changePassword);
+router.post("/resetPasswordNgo/:name", controllerNgo.changePassword);
 router.post("/newSchool", controllerSchool.newSchoolSignup);
 router.post("/confirmSchool", controllerSchool.loginSchool, confirmSchool.schoolLoginConfirmPage);
 router.post("/schoolPage/:school/:email", confirmSchool.verifyTokenCode, 

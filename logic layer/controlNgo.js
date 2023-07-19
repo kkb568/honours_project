@@ -26,6 +26,51 @@ exports.ngoLogin = async(req, res) => {
     }
 }
 
+// Get the forgot password page for ngo.
+exports.forgotPasswordPage = async(req, res) => {
+    try {
+        res.render('forgotPasswordNgo', {
+            'messages': req.flash()
+        });
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+// Open the reset password page for ngo.
+exports.resetPasswordPage = async(req, res) => {
+    try {
+        res.render('resetPasswordNgo', {
+            'name': req.params.name,
+            'messages': req.flash()
+        });
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+// Resetting the password from the reset password page.
+exports.changePassword = async(req, res) => {
+    try {
+        // Check if the password and the re-entered password are the same.
+        if (req.body.password != req.body.confirmPassword) {
+            req.flash("error", "The two passwords do not match.");
+            var error = req.flash();
+            return res.render('resetPasswordNgo', {
+                'name': req.params.name,
+                'messages': error
+            });
+        }
+        // Hash the password.
+        const hashedPassword = bcrypt.hashSync(req.body.password, saltRounds);
+        // Change the password.
+        db.changePassword(req.params.name, hashedPassword);
+        res.redirect('/passwordChangedNgo');
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
 // Method for signing-in a new Ngo user.
 exports.newNgoAccount = async(req, res, next) => {
     try {
