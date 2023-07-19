@@ -17,6 +17,9 @@ class dataConnect {
             this.db.run("CREATE TABLE IF NOT EXISTS returnee(id INTEGER PRIMARY KEY AUTOINCREMENT, schoolId INTEGER REFERENCES school(id), name TEXT, gender VARCHAR(20), dateOfBirth DATE, startDate DATE, endDate DATE, parentName TEXT, parentContact VARCHAR(200), status CHAR(100))");
             this.db.run("CREATE TABLE IF NOT EXISTS ngoUser(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, email VARCHAR(200) UNIQUE, password VARCHAR(200) UNIQUE)");
             this.db.run("CREATE TABLE IF NOT EXISTS notifications(id INTEGER PRIMARY KEY AUTOINCREMENT, message TEXT)");
+            this.db.run("CREATE TABLE IF NOT EXISTS otp(id INTEGER PRIMARY KEY AUTOINCREMENT, user TEXT, otpValue VARCHAR(200), expiresAt DATETIME)");
+
+            // this.db.run("DELETE FROM otp");
             // this.db.run('INSERT INTO province(name) VALUES("CENTRAL")');
             // this.db.run('INSERT INTO province(name) VALUES("COAST")');
             // this.db.run('INSERT INTO province(name) VALUES("EASTERN")');
@@ -335,6 +338,48 @@ class dataConnect {
                 });
             });
         });
+    }
+
+    insertOTP(user, value, expiryDate) {
+        return new Promise((resolve, reject) => {
+            this.db.serialize(() => {
+                this.db.run("INSERT INTO otp(user, otpValue, expiresAt) VALUES(?,?,?)", [user, value, expiryDate],
+                function(err) {
+                    if (err) {
+                        reject(err);
+                    }
+                });
+            });
+        });
+    }
+
+    getOTP(user) {
+        return new Promise((resolve, reject) => {
+            this.db.serialize(() => {
+                this.db.all("SELECT * FROM otp WHERE user = ?", [user],
+                function(err, entry) {
+                    if (err) {
+                        reject(err);
+                    }
+                    else {
+                        resolve(entry);
+                    }
+                });
+            });
+        }); 
+    }
+
+    deleteOTP(user) {
+        return new Promise((resolve, reject) => {
+            this.db.serialize(() => {
+                this.db.all("DELETE FROM otp WHERE user = ?", [user],
+                function(err) {
+                    if (err) {
+                        reject(err);
+                    }
+                });
+            });
+        }); 
     }
 
     deleteStudent(student) {

@@ -1,13 +1,12 @@
 const nodemailer = require('nodemailer');
-const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 const encryption = require('node-encryption');
 const dataConnector = require('../data layer/dataConnectSchools');
 const db = new dataConnector();
 
 exports.schoolLoginConfirmPage = async(req, res) => {
-    // Create verification token.
-    // const token = jwt.sign({data: req.body.school}, process.env.SCHOOL_CONFIRM_TOKEN, {expiresIn: '10m'});
-    const token = jwt.sign({data: req.body.school}, process.env.SCHOOL_CONFIRM_TOKEN); // TEMPORAL
+    // Create a random 6-digit number as otp token.
+    const token = (Math.floor(100000 + Math.random() * 900000)).toString();
     try {
         // Create email transporter.
         const transporter = nodemailer.createTransport({
@@ -31,15 +30,18 @@ exports.schoolLoginConfirmPage = async(req, res) => {
                 console.log('Email not sent.');
             } else {
                 console.log('Email sent successfully.');
-            }   
+            }
         });
     } catch (error) {
         console.log(console.error);
     }
-
+    // Hash the otp value then store it to the database.
+    const hashedOTP = bcrypt.hashSync(token, 10);
+    db.insertOTP(req.body.school, hashedOTP, new Date(Date.now() + 1*60*1000)) // expiryDate to be changed (1 minute for testing purposes). 
+    // Render to schoolLoginConfirm page.
     req.flash("success", "Login successful.");
     var successMessage = req.flash();
-    const encryptedEmail = encryption.encrypt(req.body.email, process.env.ENCRYPTION_KEY).toString();
+    const encryptedEmail = encryption.encrypt(req.body.email, process.env.ENCRYPTION_KEY);
     res.render('schoolLoginConfirm', {
         'school': req.body.school,
         'email': encryptedEmail,
@@ -49,19 +51,48 @@ exports.schoolLoginConfirmPage = async(req, res) => {
 
 // Verify the email verification code.
 exports.verifyTokenCode = async(req, res, next) => {
-    jwt.verify(req.body.code, process.env.SCHOOL_CONFIRM_TOKEN, function(err, decoded) {
-        if(err) {
-            req.flash("error", "Email verification failed. Possibly expired or invalid. Try again.");
-            var errorMessage = req.flash();
-            return res.render('schoolLoginConfirm', {
-                'school': req.params.school,
-                'email': req.params.email,
-                'messages': errorMessage
+    db.getOTP(req.params.school)
+    .then((result) => {
+        // Confirm if data exists in the database.
+        if(result.length == 0) {
+                req.flash("error", "Error occurred in getting the code or email has been verified already. Try to login to your account.");
+                var errorMessage = req.flash();
+                return res.render('schoolLoginConfirm', {
+                    'school': req.params.school,
+                    'email': req.params.email,
+                    'messages': errorMessage
+                });
+        }
+        result.forEach(element => {
+            // If the code has expired, delete the otp record from database and inform the user.
+            if (new Date() > element.expiresAt) {
+                db.deleteOTP(req.params.school);
+                req.flash("error", "Code expired. Try to login to request for the code again.");
+                var errorMessage = req.flash();
+                return res.render('schoolLoginConfirm', {
+                    'school': req.params.school,
+                    'email': req.params.email,
+                    'messages': errorMessage
+                });
+            }
+            // Compare the inserted code and the code gotten from the database.
+            const insertedCode = req.body.code;
+            bcrypt.compare(insertedCode.toString(), element.otpValue, function(err,result) {
+                if(result) {
+                    db.deleteOTP(req.params.school);
+                    next();
+                }
+                else {
+                    req.flash("error", "Invalid code. Check your inbox and try again or login to request for code again.");
+                    var errorMessage = req.flash();
+                    return res.render('schoolLoginConfirm', {
+                        'school': req.params.school,
+                        'email': req.params.email,
+                        'messages': errorMessage
+                    });
+                }
             });
-        }
-        else {
-            next();
-        }
+        });
     });
 }
 
@@ -100,8 +131,7 @@ exports.sendResetLink = async(req, res) => {
                 from: "b.koome@alustudent.com",
                 to: req.body.email,
                 subject: "Password reset link",
-                text: `Hello Sir/Madam, Click on the link below to reset your password.
-                Link: http://localhost:2000/resetPasswordSchool/${school.replace(/\s/g, '+')}` // TO BE CHANGED.
+                html: `Hello Sir/Madam, Click <a href='http://localhost:2000/resetPasswordSchool/${school.replace(/\s/g, '+')}'>here</a> to reset your password.`
             };    
             transporter.sendMail(mailOptions, function(error, info){
                 if (error) {

@@ -203,6 +203,48 @@ class dataConnect {
         });
     }
 
+    insertOTP(user, value, expiryDate) {
+        return new Promise((resolve, reject) => {
+            this.db.serialize(() => {
+                this.db.run("INSERT INTO otp(user, otpValue, expiresAt) VALUES(?,?,?)", [user, value, expiryDate],
+                function(err) {
+                    if (err) {
+                        reject(err);
+                    }
+                });
+            });
+        });
+    }
+
+    getOTP(user) {
+        return new Promise((resolve, reject) => {
+            this.db.serialize(() => {
+                this.db.all("SELECT * FROM otp WHERE user = ?", [user],
+                function(err, entry) {
+                    if (err) {
+                        reject(err);
+                    }
+                    else {
+                        resolve(entry);
+                    }
+                });
+            });
+        }); 
+    }
+
+    deleteOTP(user) {
+        return new Promise((resolve, reject) => {
+            this.db.serialize(() => {
+                this.db.all("DELETE FROM otp WHERE user = ?", [user],
+                function(err) {
+                    if (err) {
+                        reject(err);
+                    }
+                });
+            });
+        }); 
+    }
+
     changePassword(user, password) {
         return new Promise((resolve, reject) => {
             this.db.serialize(() => {
