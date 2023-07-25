@@ -11,7 +11,7 @@ exports.createCookie = async(req, res, next) => {
 
 exports.verifyCookie = async(req, res, next) => {
     let cookies = req.rawHeaders[21].split("; ");
-    let jwtCookie =  cookies[1].split("=");
+    let jwtCookie =  cookies[0].split("=");
     const accessToken = jwtCookie[1];
     if (!accessToken) {
         return res.redirect('/');
