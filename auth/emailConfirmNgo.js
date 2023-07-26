@@ -22,6 +22,7 @@ exports.ngoLoginConfirmPage = async(req, res) => {
             to: req.body.email,
             subject: "Email verification",
             text: `Hello Sir/Madam, Please enter the code below to verify your email.
+                    Remember, the code expires in 1 minute.
                     Code: ${token}`
         };
             

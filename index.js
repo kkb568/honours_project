@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 
 const path = require('path');
-const pages = path.join(__dirname, 'pages');
+const pages = path.join(__dirname, 'presentation layer/pages');
 app.use(express.static(pages, {extensions:['html']}));
 app.use(express.urlencoded({extended:true}));
 
@@ -24,6 +24,7 @@ app.use('/', router);
 const mustache = require('mustache-express');
 app.engine('mustache', mustache());
 app.set('view engine', 'mustache');
+app.set('views', path.join(__dirname, '/presentation layer/views'));
 
 require('dotenv').config();
 
