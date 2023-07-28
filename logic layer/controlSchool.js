@@ -514,6 +514,7 @@ exports.checkStudentTimer = async(req, res, next) => {
                         );
                         // Delete student record from student table.
                         db.deleteStudent(element.name);
+                        // Send notification to organisation side of a new dropout record.
                         db.addNotification();
                     }
                 });
