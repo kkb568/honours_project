@@ -364,7 +364,7 @@ exports.searchReturnedStudent = async(req, res) => {
         // Show student who was formerly dropout.
         db.showReturnedStudent(req.body.returnedStudent)
         .then((entry1) => {
-            // Check if entry is an empty string.
+            // Check if entry is an empty array.
             if (entry1.length > 0) {
                 studentRecord.push(entry1[0]);
             }
